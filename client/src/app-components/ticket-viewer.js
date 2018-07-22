@@ -13,6 +13,7 @@ import Form               from 'core-components/form';
 import FormField          from 'core-components/form-field';
 import SubmitButton       from 'core-components/submit-button';
 import DropDown           from 'core-components/drop-down';
+import Checkbox 	  from 'core-components/checkbox';
 import Button             from 'core-components/button';
 import Message            from 'core-components/message';
 import Icon               from 'core-components/icon';
@@ -209,11 +210,9 @@ class TicketViewer extends React.Component {
                 <div className="ticket-viewer__response-field row">
                     <Form {...this.getCommentFormProps()}>
                         <FormField name="content" validation="TEXT_AREA" required field="textarea" />
-                        <FormField name="fake" validation="TEXT_AREA" required field="textarea" />
-                        {(this.props.allowAttachments) ? <FormField name="file" field="file"/> : null}
+                        {(this.props.allowAttachments) ? <FormField name="file" field="file" value="true" /> : null}
+                        {(this.props.internal) ? <FormField field="checkbox" label="Internal comment" checked="true" name="internal" /> : null }
                         <div className="ticket-viewer__response-buttons">
-                            <SubmitButton type="secondary">{i18n('RESPOND_TICKET')}</SubmitButton>
-		            {(this.props.internal) ? <FormField name="internal" field="checkbox" /> : null }
                             <SubmitButton type="secondary">{i18n('RESPOND_TICKET')}</SubmitButton>
                             <Button size="medium" onClick={this.onCloseTicketClick.bind(this)}>{i18n('CLOSE_TICKET')}</Button>
                         </div>

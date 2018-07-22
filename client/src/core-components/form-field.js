@@ -137,6 +137,8 @@ class FormField extends React.Component {
         }
 
         props.value = this.props.value;
+	console.log("Field properties follow")
+	console.log(props)
 
         return props;
     }

@@ -49,6 +49,9 @@ class CheckBox extends React.Component {
 
     getProps() {
         let props = _.clone(this.props);
+	    console.log("Value is " + this.getValue())
+	    console.log('prop fetch')
+	   console.log(props)
 
         props.type = 'checkbox';
 
@@ -92,6 +95,7 @@ class CheckBox extends React.Component {
     }
 
     handleChange(event) {
+        delete this.props.value;
         this.setState({
             checked: event.target.checked
         });
