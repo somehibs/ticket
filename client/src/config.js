@@ -1,3 +1,3 @@
-root = 'http://localhost:3000';
-apiRoot = 'http://localhost:3000/api';
+root = 'http://tempest.circuitco.de:3000';
+apiRoot = 'https://ticket.circuitco.de/api';
 globalIndexPath = '';

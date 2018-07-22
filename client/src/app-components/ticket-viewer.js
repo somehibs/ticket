@@ -23,12 +23,14 @@ class TicketViewer extends React.Component {
         ticket: React.PropTypes.object,
         onChange: React.PropTypes.func,
         editable: React.PropTypes.bool,
+        internal: React.PropTypes.bool,
         customResponses: React.PropTypes.array,
         assignmentAllowed: React.PropTypes.bool
     };
 
     static defaultProps = {
         editable: false,
+	internal: false,
         ticket: {
             author: {},
             department: {},
@@ -61,7 +63,7 @@ class TicketViewer extends React.Component {
                 <div className="ticket-viewer__comments">
                     {ticket.events && ticket.events.map(this.renderTicketEvent.bind(this))}
                 </div>
-                {(!this.props.ticket.closed && (this.props.editable || !this.props.assignmentAllowed)) ? this.renderResponseField() : null}
+                {(!this.props.ticket.closed && (this.props.editable))? this.renderResponseField() : null}
             </div>
         );
     }
@@ -180,7 +182,7 @@ class TicketViewer extends React.Component {
     renderOwnerNode() {
         let ownerNode = null;
 
-        if (this.props.assignmentAllowed && _.isEmpty(this.props.ticket.owner)) {
+        if (this.props.assignmentAllowed) {
             ownerNode = (
                 <Button type="secondary" size="extra-small" onClick={this.onAssignClick.bind(this)}>
                     {i18n('ASSIGN_TO_ME')}
@@ -207,8 +209,11 @@ class TicketViewer extends React.Component {
                 <div className="ticket-viewer__response-field row">
                     <Form {...this.getCommentFormProps()}>
                         <FormField name="content" validation="TEXT_AREA" required field="textarea" />
+                        <FormField name="fake" validation="TEXT_AREA" required field="textarea" />
                         {(this.props.allowAttachments) ? <FormField name="file" field="file"/> : null}
                         <div className="ticket-viewer__response-buttons">
+                            <SubmitButton type="secondary">{i18n('RESPOND_TICKET')}</SubmitButton>
+		            {(this.props.internal) ? <FormField name="internal" field="checkbox" /> : null }
                             <SubmitButton type="secondary">{i18n('RESPOND_TICKET')}</SubmitButton>
                             <Button size="medium" onClick={this.onCloseTicketClick.bind(this)}>{i18n('CLOSE_TICKET')}</Button>
                         </div>

@@ -1,3 +1,4 @@
+*.swp
 .idea
 .jshintrc
 tests/Gemfile.lock
