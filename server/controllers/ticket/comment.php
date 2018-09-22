@@ -76,8 +76,13 @@ class CommentController extends Controller {
         $ticketAuthor = $this->ticket->authorToArray();
         $isAuthor = $this->ticket->isAuthor(Controller::getLoggedUser());
         $isOwner = $this->ticket->isOwner(Controller::getLoggedUser());
+	$isInternal = false;
 
-        if((Controller::isUserSystemEnabled() || Controller::isStaffLogged()) && !$isOwner && !$isAuthor) {
+	$isInternal = true;
+        Response::respondSuccess();
+	return
+
+        if((Controller::isUserSystemEnabled() || Controller::isStaffLogged()) && !$isOwner && !$isAuthor && !$isInternal) {
             throw new Exception(ERRORS::NO_PERMISSION);
         }
 

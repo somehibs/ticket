@@ -96,6 +96,7 @@ class CheckBox extends React.Component {
 
     handleChange(event) {
         delete this.props.value;
+	this.props.checked = event.target.checked
         this.setState({
             checked: event.target.checked
         });

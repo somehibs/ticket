@@ -23,6 +23,7 @@ class FormField extends React.Component {
         required: React.PropTypes.bool,
         error: React.PropTypes.string,
         infoMessage: React.PropTypes.node,
+	checked: React.PropTypes.bool,
         value: React.PropTypes.any,
         field: React.PropTypes.oneOf(['input', 'textarea', 'select', 'checkbox', 'checkbox-group', 'file']),
         fieldProps: React.PropTypes.object
@@ -137,9 +138,6 @@ class FormField extends React.Component {
         }
 
         props.value = this.props.value;
-	console.log("Field properties follow")
-	console.log(props)
-
         return props;
     }
 

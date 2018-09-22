@@ -1,4 +1,6 @@
 *.swp
+_assets/
+build/
 .idea
 .jshintrc
 tests/Gemfile.lock
