@@ -6,6 +6,7 @@ COPY=1
 TARGET="dev"
 
 OUTPUT_DIR="build"
+rm -r $OUTPUT_DIR
 mkdir $OUTPUT_DIR
 ## enter any dir to make any cd work
 if [[ $BUILD_CLIENT == 1 ]]; then
@@ -16,7 +17,7 @@ if [[ $BUILD_CLIENT == 1 ]]; then
 	cd ..
 fi
 if [[ $BUILD_SERVER == 1 ]]; then
-	echo "2/3 Creating $OUTPUT_DIR/api folder..."
+	echo "2/3 Creating $OUTPUT_DIR/api"
 	mkdir $OUTPUT_DIR/api
 	cp server/index.php $OUTPUT_DIR/api
 	cp server/.htaccess $OUTPUT_DIR/api
@@ -36,7 +37,11 @@ if [[ $COPY == 1 ]]; then
 	if [[ -z $TARGET ]]; then
 		echo "TARGET is undefined."
 	fi
-	ls -l
+	echo "Copying api to $TARGET"
+	cp ../$TARGET/api/config.php ./
+	rm -rf ../$TARGET/api
+	cp -R $OUTPUT_DIR/api/ ../$TARGET/api
+	cp ./config.php ../$TARGET/api
 fi
 if [[ $BUILD_ZIP == 1 ]]; then
 	echo "3/3 Generating zip..."

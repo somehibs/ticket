@@ -80,7 +80,7 @@ class CommentController extends Controller {
 
 	$isInternal = true;
         Response::respondSuccess();
-	return
+	return;
 
         if((Controller::isUserSystemEnabled() || Controller::isStaffLogged()) && !$isOwner && !$isAuthor && !$isInternal) {
             throw new Exception(ERRORS::NO_PERMISSION);
