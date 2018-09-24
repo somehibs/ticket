@@ -138,37 +138,37 @@ class AdminPanelMenu extends React.Component {
                     }
                 ])
             },
-            {
-                groupName: i18n('USERS'),
-                path: '/admin/panel/users',
-                icon: 'user',
-                level: 1,
-                items: this.getItemsByFilteredByLevel([
-                    {
-                        name: i18n('LIST_USERS'),
-                        path: '/admin/panel/users/list-users',
-                        level: 1
-                    },
-                    {
-                        name: i18n('BAN_USERS'),
-                        path: '/admin/panel/users/ban-users',
-                        level: 1
-                    }
-                ])
-            },
-            {
-                groupName: i18n('ARTICLES'),
-                path: '/admin/panel/articles',
-                icon: 'book',
-                level: 2,
-                items: this.getItemsByFilteredByLevel([
-                    {
-                        name: i18n('LIST_ARTICLES'),
-                        path: '/admin/panel/articles/list-articles',
-                        level: 2
-                    }
-                ])
-            },
+//            {
+//                groupName: i18n('USERS'),
+//                path: '/admin/panel/users',
+//                icon: 'user',
+//                level: 1,
+//                items: this.getItemsByFilteredByLevel([
+//                    {
+//                        name: i18n('LIST_USERS'),
+//                        path: '/admin/panel/users/list-users',
+//                        level: 1
+//                    },
+//                    {
+//                        name: i18n('BAN_USERS'),
+//                        path: '/admin/panel/users/ban-users',
+//                        level: 1
+//                    }
+//                ])
+//            },
+//            {
+//                groupName: i18n('ARTICLES'),
+//                path: '/admin/panel/articles',
+//                icon: 'book',
+//                level: 2,
+//                items: this.getItemsByFilteredByLevel([
+//                    {
+//                        name: i18n('LIST_ARTICLES'),
+//                        path: '/admin/panel/articles/list-articles',
+//                        level: 2
+//                    }
+//                ])
+//            },
             {
 
                 groupName: i18n('STAFF'),

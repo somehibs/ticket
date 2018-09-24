@@ -2,6 +2,7 @@
 # server only copies $OUTPUT_DIR/api and doesn't overwrite config.php
 
 BUILD_SERVER=1
+#BUILD_CLIENT=1
 COPY=1
 TARGET="dev"
 
@@ -37,11 +38,19 @@ if [[ $COPY == 1 ]]; then
 	if [[ -z $TARGET ]]; then
 		echo "TARGET is undefined."
 	fi
-	echo "Copying api to $TARGET"
-	cp ../$TARGET/api/config.php ./
-	rm -rf ../$TARGET/api
-	cp -R $OUTPUT_DIR/api/ ../$TARGET/api
-	cp ./config.php ../$TARGET/api
+	if [[ $BUILD_SERVER == 1 ]]; then
+		echo "Copying api to $TARGET"
+		cp ../$TARGET/api/config.php ./
+		rm -rf ../$TARGET/api
+		cp -R $OUTPUT_DIR/api/ ../$TARGET/api
+		cp ./config.php ../$TARGET/api
+	fi
+	if [[ $BUILD_CLIENT == 1 ]]; then
+		echo "Copying client to $TARGET"
+		cp client/build/js/main.js ../$TARGET/js/main.js
+		rm -r ../$TARGET/css/
+		cp -R client/build/css/ ../$TARGET/css/
+	fi
 fi
 if [[ $BUILD_ZIP == 1 ]]; then
 	echo "3/3 Generating zip..."

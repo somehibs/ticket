@@ -76,9 +76,10 @@ class CommentController extends Controller {
         $ticketAuthor = $this->ticket->authorToArray();
         $isAuthor = $this->ticket->isAuthor(Controller::getLoggedUser());
         $isOwner = $this->ticket->isOwner(Controller::getLoggedUser());
-	$isInternal = false;
+//	$isInternal = $this->ticket;
 
-	$isInternal = true;
+//	$isInternal = true;
+	error_log(print_r($this->ticket));
         Response::respondSuccess();
 	return;
 

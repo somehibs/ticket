@@ -57,6 +57,7 @@ abstract class Controller {
 
         if($secure) {
             $config = HTMLPurifier_Config::createDefault();
+	    $config->set('Cache.SerializerPath', '/tmp/serializer/');
             $purifier = new HTMLPurifier($config);
             return $purifier->purify($result);
         } else {
