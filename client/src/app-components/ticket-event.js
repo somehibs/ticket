@@ -11,6 +11,7 @@ class TicketEvent extends React.Component {
     static propTypes = {
         type: React.PropTypes.oneOf([
             'COMMENT',
+            'INTERNAL_COMMENT',
             'ASSIGN',
             'UN_ASSIGN',
             'CLOSE',
@@ -26,7 +27,7 @@ class TicketEvent extends React.Component {
     render() {
         let iconNode = null;
 
-        if (this.props.type === 'COMMENT' && this.props.author && this.props.author.staff) {
+        if ((this.props.type === 'COMMENT' || this.props.type === 'INTERNAL_COMMENT') && this.props.author && this.props.author.staff) {
             iconNode = this.renderStaffPic();
         } else {
             iconNode = this.renderIcon();
@@ -65,7 +66,8 @@ class TicketEvent extends React.Component {
 
     renderEventDescription() {
         const renders = {
-            'COMMENT': this.renderComment.bind(this),
+            'COMMENT': this.renderComment.bind(this, false),
+            'INTERNAL_COMMENT': this.renderComment.bind(this, true),
             'ASSIGN': this.renderAssignment.bind(this),
             'UN_ASSIGN': this.renderUnAssignment.bind(this),
             'CLOSE': this.renderClosed.bind(this),
@@ -77,16 +79,17 @@ class TicketEvent extends React.Component {
         return renders[this.props.type]();
     }
 
-    renderComment() {
+    renderComment(internal) {
         return (
             <div className="ticket-event__comment">
                 <span className="ticket-event__comment-pointer" />
                 <div className="ticket-event__comment-author">
                     <span className="ticket-event__comment-author-name">{this.props.author.name}</span>
                     <span className="ticket-event__comment-author-type">({i18n((this.props.author.staff) ? 'STAFF' : 'CUSTOMER')})</span>
+			{this.props.type === 'INTERNAL_COMMENT' ? <span className="ticket-event__comment-type">Internal comment</span> : undefined}
                 </div>
                 <div className="ticket-event__comment-date">{DateTransformer.transformToString(this.props.date)}</div>
-                <div className="ticket-event__comment-content" dangerouslySetInnerHTML={{__html: this.props.content}}></div>
+                <div className={this.props.type === 'INTERNAL_COMMENT' ? "ticket-event__comment-internal-content" : "ticket-event__comment-content"} dangerouslySetInnerHTML={{__html: this.props.content}}></div>
                 {this.renderFileRow(this.props.file)}
             </div>
         );
@@ -173,6 +176,7 @@ class TicketEvent extends React.Component {
     getClass() {
         const circledTypes = {
             'COMMENT': false,
+            'INTERNAL_COMMENT': false,
             'ASSIGN': true,
             'UN_ASSIGN': true,
             'CLOSE': true,
@@ -198,6 +202,7 @@ class TicketEvent extends React.Component {
     getIconProps() {
         const iconName = {
             'COMMENT': 'comment-o',
+            'INTERNAL_COMMENT': 'comment-o',
             'ASSIGN': 'user',
             'UN_ASSIGN': 'user-times',
             'CLOSE': 'lock',
@@ -207,6 +212,7 @@ class TicketEvent extends React.Component {
         };
         const iconSize = {
             'COMMENT': '2x',
+            'INTERNAL_COMMENT': '2x',
             'ASSIGN': 'lg',
             'UN_ASSIGN': 'lg',
             'CLOSE': 'lg',

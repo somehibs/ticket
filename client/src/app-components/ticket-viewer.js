@@ -31,7 +31,7 @@ class TicketViewer extends React.Component {
 
     static defaultProps = {
         editable: false,
-	internal: false,
+	showInternal: false,
         ticket: {
             author: {},
             department: {},
@@ -355,7 +355,6 @@ class TicketViewer extends React.Component {
             dataAsForm: true,
             data: _.extend({
                 ticketNumber: this.props.ticket.ticketNumber
-//		internal: this.props.internal
             }, formState)
         }).then(this.onCommentSuccess.bind(this), this.onCommentFail.bind(this));
     }

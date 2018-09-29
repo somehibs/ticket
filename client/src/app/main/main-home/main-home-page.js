@@ -13,18 +13,14 @@ class MainHomePage extends React.Component {
     
     render() {
         return (
-//		<div><Redirect to="/admin" /></div>
-		<div>this is a bug</div>	
-	);
-//		(
-//            <div className="main-home-page">
-//                {this.renderMessage()}
-//                {(this.props.config['user-system-enabled']) ? this.renderLoginWidget() : null}
-//                <div className={this.getPortalClass()}>
-//                    <MainHomePagePortal type={((this.props.config['user-system-enabled']) ? 'default' : 'complete')}/>
-//                </div>
-//            </div>
-//        );
+            <div className="main-home-page">
+                {this.renderMessage()}
+                {(this.props.config['user-system-enabled']) ? this.renderLoginWidget() : null}
+                <div className={this.getPortalClass()}>
+                    <MainHomePagePortal type={((this.props.config['user-system-enabled']) ? 'default' : 'complete')}/>
+                </div>
+            </div>
+        );
     }
 
     renderMessage() {

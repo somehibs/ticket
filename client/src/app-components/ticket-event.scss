@@ -48,6 +48,10 @@
     &__comment {
         position: relative;
         word-break: break-all;
+	
+	&-type {
+		text-align: center;
+	}
 
         &-pointer {
             right: 100%;
@@ -84,6 +88,14 @@
 
         &-content {
             background-color: white;
+            border: 2px solid $very-light-grey;
+            border-top: none;
+            padding: 20px 10px;
+            text-align: left;
+        }
+
+        &-internal-content {
+            background-color: black;
             border: 2px solid $very-light-grey;
             border-top: none;
             padding: 20px 10px;
