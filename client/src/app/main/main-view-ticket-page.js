@@ -12,7 +12,7 @@ class MainViewTicketPage extends React.Component {
         return (
             <div className="main-view-ticket-page">
                 <Widget>
-                    <AdminPanelViewTicket {...this.props} avoidSeen assignmentAllowed={false} onRetrieveFail={this.onRetrieveFail.bind(this)} />
+                    <AdminPanelViewTicket {...this.props} staffPage={false} avoidSeen assignmentAllowed={false} onRetrieveFail={this.onRetrieveFail.bind(this)} />
                 </Widget>
             </div>
         );

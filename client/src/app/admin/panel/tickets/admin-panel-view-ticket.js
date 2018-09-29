@@ -15,11 +15,13 @@ class AdminPanelViewTicket extends React.Component {
     static propTypes = {
         avoidSeen: React.PropTypes.bool,
         onRetrieveFail: React.PropTypes.func,
-        assignmentAllowed: React.PropTypes.bool
+        assignmentAllowed: React.PropTypes.bool,
+	staffPage: React.PropTypes.bool
     };
 
     static defaultProps = {
         avoidSeen: false,
+	staffPage: true,
         assignmentAllowed: true
     };
 
@@ -75,7 +77,7 @@ class AdminPanelViewTicket extends React.Component {
             onChange: this.retrieveTicket.bind(this),
             assignmentAllowed: this.props.assignmentAllowed,
             customResponses: this.props.customResponses,
-	    internal: true,
+	    showInternal: this.props.staffPage,
             editable: true
         };
     }

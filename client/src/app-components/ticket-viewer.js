@@ -24,14 +24,12 @@ class TicketViewer extends React.Component {
         ticket: React.PropTypes.object,
         onChange: React.PropTypes.func,
         editable: React.PropTypes.bool,
-        showInternal: React.PropTypes.bool,
+        showInternal: React.PropTypes.bool.isRequired,
         customResponses: React.PropTypes.array,
         assignmentAllowed: React.PropTypes.bool
     };
 
     static defaultProps = {
-        editable: false,
-	showInternal: false,
         ticket: {
             author: {},
             department: {},
@@ -48,9 +46,6 @@ class TicketViewer extends React.Component {
 
     render() {
         const ticket = this.props.ticket;
-	console.log("render start");
-	console.log(this.props);
-
         return (
             <div className="ticket-viewer">
                 <div className="ticket-viewer__header row">
@@ -261,9 +256,6 @@ class TicketViewer extends React.Component {
             onSubmit: this.onSubmit.bind(this),
             loading: this.state.loading,
             onChange: (formState) => {
-		    console.log("form changed");
-		    console.log(formState);
-		    console.log(this.state);
 		    this.setState({
                 commentValue: formState.content,
                 commentFile: formState.file,
