@@ -24,7 +24,7 @@ class TicketViewer extends React.Component {
         ticket: React.PropTypes.object,
         onChange: React.PropTypes.func,
         editable: React.PropTypes.bool,
-        internal: React.PropTypes.bool,
+        showInternal: React.PropTypes.bool,
         customResponses: React.PropTypes.array,
         assignmentAllowed: React.PropTypes.bool
     };
@@ -43,11 +43,13 @@ class TicketViewer extends React.Component {
         loading: false,
         commentValue: TextEditor.createEmpty(),
         commentEdited: false,
-	internal: true
+	internal: this.props.showInternal
     };
 
     render() {
         const ticket = this.props.ticket;
+	console.log("render start");
+	console.log(this.props);
 
         return (
             <div className="ticket-viewer">
@@ -212,7 +214,7 @@ class TicketViewer extends React.Component {
                     <Form {...this.getCommentFormProps()}>
                         <FormField name="content" validation="TEXT_AREA" required field="textarea" />
                         {(this.props.allowAttachments) ? <FormField name="file" field="file" value="true" /> : null}
-                        {(this.props.internal) ? <FormField field="checkbox" label="Internal comment" checked="true" name="internal" /> : null }
+                        {(this.props.showInternal) ? <FormField field="checkbox" label="Internal comment" checked="true" name="internal" /> : undefined }
                         <div className="ticket-viewer__response-buttons">
                             <SubmitButton type="secondary">{i18n('RESPOND_TICKET')}</SubmitButton>
                             <Button size="medium" onClick={this.onCloseTicketClick.bind(this)}>{i18n('CLOSE_TICKET')}</Button>
@@ -258,7 +260,11 @@ class TicketViewer extends React.Component {
         return {
             onSubmit: this.onSubmit.bind(this),
             loading: this.state.loading,
-            onChange: (formState) => {this.setState({
+            onChange: (formState) => {
+		    console.log("form changed");
+		    console.log(formState);
+		    console.log(this.state);
+		    this.setState({
                 commentValue: formState.content,
                 commentFile: formState.file,
                 commentEdited: true,

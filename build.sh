@@ -1,7 +1,7 @@
 # improve buildscript, take arg for client or server
 # server only copies $OUTPUT_DIR/api and doesn't overwrite config.php
 
-BUILD_SERVER=1
+#BUILD_SERVER=1
 BUILD_CLIENT=1
 COPY=1
 TARGET="dev"

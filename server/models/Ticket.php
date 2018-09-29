@@ -106,7 +106,7 @@ class Ticket extends DataStore {
         return $ticketNumber;
     }
 
-    public function toArray() {
+    public function toArray($internalEvents = false) {
         return [
             'ticketNumber' => $this->ticketNumber,
             'title' => $this->title,
@@ -124,7 +124,7 @@ class Ticket extends DataStore {
             'priority' => $this->priority,
             'author' => $this->authorToArray(),
             'owner' => $this->ownerToArray(),
-            'events' => $this->eventsToArray()
+            'events' => $this->eventsToArray($internalEvents)
         ];
     }
 
@@ -161,10 +161,14 @@ class Ticket extends DataStore {
         }
     }
 
-    public function eventsToArray() {
+    public function eventsToArray($internalEvents) {
         $events = [];
 
         foreach ($this->ownTicketeventList as $ticketEvent) {
+	    if ($internalEvents === false && $ticketEvent->type === "INTERNAL_COMMENT") {
+		    continue;
+	    }
+
             $event = [
                 'type' => $ticketEvent->type,
                 'content'=> $ticketEvent->content,

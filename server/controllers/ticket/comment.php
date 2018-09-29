@@ -90,7 +90,9 @@ class CommentController extends Controller {
             'staff' => true
           ]);
         } else {
-          $this->sendMail($ticketAuthor);
+		if (!$this->internal) {
+	          $this->sendMail($ticketAuthor);
+		}
         }
 
         Log::createLog('COMMENT', $this->ticket->ticketNumber);
@@ -103,7 +105,6 @@ class CommentController extends Controller {
         $this->ticket = Ticket::getByTicketNumber($ticketNumber);
         $this->content = Controller::request('content', true);
         $this->internal = Controller::request('internal', false);
-	error_log("Internal state " . $this->internal);
     }
 
     private function storeComment() {

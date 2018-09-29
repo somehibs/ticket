@@ -67,10 +67,10 @@ class TicketGetController extends Controller {
             if ($this->shouldDenyPermission()) {
                 throw new Exception(ERRORS::NO_PERMISSION);
             } else {
-                Response::respondSuccess($this->ticket->toArray());
+                Response::respondSuccess($this->ticket->toArray(true));
             }
         } else {
-            Response::respondSuccess($this->ticket->toArray());
+            Response::respondSuccess($this->ticket->toArray(false));
         }
     }
 
