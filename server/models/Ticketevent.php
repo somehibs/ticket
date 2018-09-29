@@ -19,6 +19,7 @@ class Ticketevent extends DataStore {
     const TABLE = 'ticketevent';
 
     const COMMENT = 'COMMENT';
+    const INTERNAL_COMMENT = 'INTERNAL_COMMENT';
     const ASSIGN = 'ASSIGN';
     const UN_ASSIGN = 'UN_ASSIGN';
     const CLOSE = 'CLOSE';
@@ -29,6 +30,7 @@ class Ticketevent extends DataStore {
     private static function getEventTypes() {
         return [
             'COMMENT',
+            'INTERNAL_COMMENT',
             'ASSIGN',
             'UN_ASSIGN',
             'CLOSE',

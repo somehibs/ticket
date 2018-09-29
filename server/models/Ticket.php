@@ -196,6 +196,9 @@ class Ticket extends DataStore {
 
     public function isAuthor($user) {
         $ticketAuthor = $this->authorToArray();
+	if (!isset($ticketAuthor['id'])) {
+		return false;
+	}
         return $user->id == $ticketAuthor['id'] && ($user instanceof Staff) == $ticketAuthor['staff'];
     }
 

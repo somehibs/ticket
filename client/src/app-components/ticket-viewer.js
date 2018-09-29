@@ -42,7 +42,8 @@ class TicketViewer extends React.Component {
     state = {
         loading: false,
         commentValue: TextEditor.createEmpty(),
-        commentEdited: false
+        commentEdited: false,
+	internal: true
     };
 
     render() {
@@ -260,11 +261,13 @@ class TicketViewer extends React.Component {
             onChange: (formState) => {this.setState({
                 commentValue: formState.content,
                 commentFile: formState.file,
-                commentEdited: true
+                commentEdited: true,
+		internal: formState.internal
             })},
             values: {
                 'content': this.state.commentValue,
-                'file': this.state.commentFile
+                'file': this.state.commentFile,
+		'internal': this.state.internal
             }
         };
     }
@@ -341,6 +344,8 @@ class TicketViewer extends React.Component {
     }
 
     onSubmit(formState) {
+	    console.log('form submitting');
+	    console.log(formState);
         this.setState({
             loading: true
         });
@@ -350,6 +355,7 @@ class TicketViewer extends React.Component {
             dataAsForm: true,
             data: _.extend({
                 ticketNumber: this.props.ticket.ticketNumber
+//		internal: this.props.internal
             }, formState)
         }).then(this.onCommentSuccess.bind(this), this.onCommentFail.bind(this));
     }

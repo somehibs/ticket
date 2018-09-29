@@ -60,7 +60,7 @@ class EditMailTemplateController extends Controller {
         $language = Controller::request('language');
         $templateType = Controller::request('templateType');
         $subject = Controller::request('subject', true);
-        $body = Controller::request('body', true);
+        $body = Controller::request('body'); // don't bother to secure this so we can fully edit the tpl
 
         $mailTemplate = MailTemplate::findOne(' language = ? AND type = ?', [$language, $templateType]);
         if($mailTemplate->isNull()) {

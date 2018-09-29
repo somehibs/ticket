@@ -76,14 +76,8 @@ class CommentController extends Controller {
         $ticketAuthor = $this->ticket->authorToArray();
         $isAuthor = $this->ticket->isAuthor(Controller::getLoggedUser());
         $isOwner = $this->ticket->isOwner(Controller::getLoggedUser());
-//	$isInternal = $this->ticket;
 
-//	$isInternal = true;
-	error_log(print_r($this->ticket));
-        Response::respondSuccess();
-	return;
-
-        if((Controller::isUserSystemEnabled() || Controller::isStaffLogged()) && !$isOwner && !$isAuthor && !$isInternal) {
+        if((Controller::isUserSystemEnabled() || Controller::isStaffLogged()) && !$isOwner && !$isAuthor && !$this->internal) {
             throw new Exception(ERRORS::NO_PERMISSION);
         }
 
@@ -108,12 +102,18 @@ class CommentController extends Controller {
         $ticketNumber = Controller::request('ticketNumber');
         $this->ticket = Ticket::getByTicketNumber($ticketNumber);
         $this->content = Controller::request('content', true);
+        $this->internal = Controller::request('internal', false);
+	error_log("Internal state " . $this->internal);
     }
 
     private function storeComment() {
         $fileUploader = $this->uploadFile();
 
-        $comment = Ticketevent::getEvent(Ticketevent::COMMENT);
+	if ($this->internal) {
+	        $comment = Ticketevent::getEvent(Ticketevent::INTERNAL_COMMENT);
+	} else {
+	        $comment = Ticketevent::getEvent(Ticketevent::COMMENT);
+	}
         $comment->setProperties(array(
             'content' => $this->content,
             'file' => ($fileUploader instanceof FileUploader) ? $fileUploader->getFileName() : null,
@@ -138,7 +138,7 @@ class CommentController extends Controller {
 
         $email = $recipient['email'];
         $name = $recipient['name'];
-        $isStaff = $recipient['staff'];
+        $isStaff = isset($recipient['staff']) && $recipient['staff'];
 
         $url = Setting::getSetting('url')->getValue();
 
