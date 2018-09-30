@@ -51,6 +51,7 @@
 	
 	&-type {
 		text-align: center;
+		padding-left: 75px;
 	}
 
         &-pointer {
@@ -95,7 +96,7 @@
         }
 
         &-internal-content {
-            background-color: black;
+            background-color: lightblue;
             border: 2px solid $very-light-grey;
             border-top: none;
             padding: 20px 10px;

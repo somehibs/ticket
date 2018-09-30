@@ -25,7 +25,7 @@ class MailSender {
 
     public function setConnectionSettings($host, $port, $user, $pass, $noReplyEmail) {
         $this->mailOptions['from'] = $noReplyEmail;
-        $this->mailOptions['fromName'] = 'OpenSupports';
+        $this->mailOptions['fromName'] = 'Tripsit';
 
         $this->mailOptions['smtp-host'] = $host;
         $this->mailOptions['smtp-port'] = $port;

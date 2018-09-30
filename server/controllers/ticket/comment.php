@@ -74,23 +74,37 @@ class CommentController extends Controller {
     public function handler() {
         $this->requestData();
         $ticketAuthor = $this->ticket->authorToArray();
-        $isAuthor = $this->ticket->isAuthor(Controller::getLoggedUser());
-        $isOwner = $this->ticket->isOwner(Controller::getLoggedUser());
+	$isAuthor = 0;
+	$isOwner = 0;
+	if (Controller::getLoggedUser() instanceof NullDataStore) {
+		$sessionTicket = Session::getInstance()->getTicketNumber();
+		if ($sessionTicket !== $this->ticket->ticket_number) {
+			return;
+		} else {
+			$isAuthor = 1;
+		}
+	} else {
+	        $isAuthor = $this->ticket->isAuthor(Controller::getLoggedUser());
+	        $isOwner = $this->ticket->isOwner(Controller::getLoggedUser());
+	}
 
-        if((Controller::isUserSystemEnabled() || Controller::isStaffLogged()) && !$isOwner && !$isAuthor && !$this->internal) {
-            throw new Exception(ERRORS::NO_PERMISSION);
+        if(!$isOwner && !$isAuthor && ($this->internal === "false")) {
+		error_log("Permission denied ".$isOwner."|".$isAuthor."|".$this->internal);
+		throw new Exception(ERRORS::NO_PERMISSION);
         }
 
         $this->storeComment();
 
-        if($isAuthor && $this->ticket->owner) {
+
+		error_log("Permission denied ".$isOwner."|".$isAuthor."|".$this->internal);
+        if($isAuthor && $this->ticket->owner && $this->internal === "false") {
           $this->sendMail([
             'email' => $this->ticket->owner->email,
             'name' => $this->ticket->owner->name,
             'staff' => true
           ]);
         } else {
-		if (!$this->internal) {
+		if ($this->internal === "false" && !$isAuthor) {
 	          $this->sendMail($ticketAuthor);
 		}
         }
@@ -104,13 +118,13 @@ class CommentController extends Controller {
         $ticketNumber = Controller::request('ticketNumber');
         $this->ticket = Ticket::getByTicketNumber($ticketNumber);
         $this->content = Controller::request('content', true);
-        $this->internal = Controller::request('internal', false);
+        $this->internal = Controller::request('internal');
     }
 
     private function storeComment() {
         $fileUploader = $this->uploadFile();
 
-	if ($this->internal) {
+	if ($this->internal !== "false") {
 	        $comment = Ticketevent::getEvent(Ticketevent::INTERNAL_COMMENT);
 	} else {
 	        $comment = Ticketevent::getEvent(Ticketevent::COMMENT);
@@ -128,7 +142,7 @@ class CommentController extends Controller {
         } else if(Controller::isUserSystemEnabled()) {
             $this->ticket->unreadStaff = true;
             $comment->authorUser = Controller::getLoggedUser();
-        }
+	}
 
         $this->ticket->addEvent($comment);
         $this->ticket->store();

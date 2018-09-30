@@ -28,6 +28,7 @@ function buildScript(file, watch) {
         return (global.isProd) ? "'enabled'" : "'disabled'";
       },
       noFixtures: function() {
+	      console.log("fixture mode : " + util.env['api'])
         return (util.env['api']) ? "'enabled'" : "'disabled'";
       }
     },

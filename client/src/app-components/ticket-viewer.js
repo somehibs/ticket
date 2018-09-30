@@ -195,8 +195,12 @@ class TicketViewer extends React.Component {
     }
 
     renderTicketEvent(options, index) {
+	let isMine = options.author.id === this.props.userId
+	    console.log("Author") 
+	    console.log(options.author)
+	    console.log(this.props.ticket.author)
         return (
-            <TicketEvent {...options} author={(!_.isEmpty(options.author)) ? options.author : this.props.ticket.author} key={index} />
+            <TicketEvent {...options} isMine={isMine} author={(!_.isEmpty(options.author)) ? options.author : this.props.ticket.author} key={index} />
         );
     }
 

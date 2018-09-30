@@ -20,14 +20,11 @@ class MainHomePagePortal extends React.Component {
                     <Header title={this.props.title || i18n('SUPPORT_CENTER')} description={i18n('SUPPORT_CENTER_DESCRIPTION')} />
                 </div>
                 <div className="main-home-page-portal__cards">
-                    <div className="main-home-page-portal__card col-md-4">
-                        <Card {...this.getTicketsCardProps()}/>
-                    </div>
-                    <div className="main-home-page-portal__card col-md-4">
+                    <div className="main-home-page-portal__card col-md-6">
                         <Card {...((this.props.type === 'complete') ? this.getViewTicketCardProps() : this.getAccountCardProps())} />
                     </div>
-                    <div className="main-home-page-portal__card col-md-4">
-                        <Card {...this.getArticlesCardProps()} />
+                    <div className="main-home-page-portal__card col-md-6">
+                        <Card {...this.getAdminCardProps()} />
                     </div>
                 </div>
             </Widget>
@@ -51,6 +48,17 @@ class MainHomePagePortal extends React.Component {
             description: i18n('ACCOUNT_DESCRIPTION'),
             icon: 'user',
             color: 'green'
+        };
+    }
+
+    getAdminCardProps() {
+        return {
+            title: "Answer tickets",
+            description: "Staff only",
+            icon: 'user',
+            color: 'blue',
+            buttonText: "Login",
+            onButtonClick: () => history.push('/admin')
         };
     }
 

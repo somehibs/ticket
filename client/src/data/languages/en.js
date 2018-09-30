@@ -32,7 +32,7 @@ export default {
     'CLOSE_TICKET': 'Close ticket',
     'NO_ATTACHMENT': 'No file attachment',
     'STAFF': 'Staff',
-    'CUSTOMER': 'Customer',
+    'CUSTOMER': 'User',
     'YES': 'Yes',
     'NO': 'No',
     'CANCEL': 'Cancel',

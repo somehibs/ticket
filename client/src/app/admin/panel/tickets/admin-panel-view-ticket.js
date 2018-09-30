@@ -16,7 +16,8 @@ class AdminPanelViewTicket extends React.Component {
         avoidSeen: React.PropTypes.bool,
         onRetrieveFail: React.PropTypes.func,
         assignmentAllowed: React.PropTypes.bool,
-	staffPage: React.PropTypes.bool
+	staffPage: React.PropTypes.bool,
+	userId: React.PropTypes.string
     };
 
     static defaultProps = {
@@ -78,7 +79,8 @@ class AdminPanelViewTicket extends React.Component {
             assignmentAllowed: this.props.assignmentAllowed,
             customResponses: this.props.customResponses,
 	    showInternal: this.props.staffPage,
-            editable: true
+            editable: true,
+	    userId: this.props.userId
         };
     }
 
@@ -121,6 +123,7 @@ class AdminPanelViewTicket extends React.Component {
 
 export default connect((store) => {
     return {
-        customResponses: store.adminData.customResponses
+        customResponses: store.adminData.customResponses,
+	userId: store.session.userId
     };
 })(AdminPanelViewTicket);

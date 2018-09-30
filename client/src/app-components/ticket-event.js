@@ -20,6 +20,7 @@ class TicketEvent extends React.Component {
             'PRIORITY_CHANGED'
         ]),
         author: React.PropTypes.object,
+	isMine: React.PropTypes.bool.isRequired,
         content: React.PropTypes.string,
         date: React.PropTypes.string
     };
@@ -91,6 +92,7 @@ class TicketEvent extends React.Component {
                 <div className="ticket-event__comment-date">{DateTransformer.transformToString(this.props.date)}</div>
                 <div className={this.props.type === 'INTERNAL_COMMENT' ? "ticket-event__comment-internal-content" : "ticket-event__comment-content"} dangerouslySetInnerHTML={{__html: this.props.content}}></div>
                 {this.renderFileRow(this.props.file)}
+                {this.renderDelete()}
             </div>
         );
     }
@@ -157,6 +159,16 @@ class TicketEvent extends React.Component {
         );
     }
 
+    renderDelete() {
+	    if (this.props.author.id === undefined) {
+	 	console.log("cannot delete external user")
+		return;
+	    } else if (this.props.isMine) {
+		console.log("we good")
+	 	console.log(this.props)
+	    }
+    }
+
     renderFileRow(file) {
         let node = null;
 
@@ -164,6 +176,7 @@ class TicketEvent extends React.Component {
             node = <span> {this.getFileLink(file)} <Icon name="paperclip" /> </span>;
         } else {
             node = i18n('NO_ATTACHMENT');
+	return;
         }
 
         return (
