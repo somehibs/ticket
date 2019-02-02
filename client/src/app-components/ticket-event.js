@@ -168,6 +168,7 @@ class TicketEvent extends React.Component {
 	    } else if (this.props.isMine) {
 		console.log("we good")
 	 	console.log(this.props)
+		    return (<span></span>);
 		return (
 			<Form>
 			"Delete your post?"
