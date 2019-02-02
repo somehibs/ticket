@@ -20,7 +20,7 @@ if (isProd === 'disabled') {
 }
 
 if (noFixtures === 'disabled') {
-    require('lib-app/fixtures-loader');
+//    require('lib-app/fixtures-loader');
 }
 
 let renderApplication = function () {

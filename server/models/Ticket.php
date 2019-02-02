@@ -41,6 +41,7 @@ class Ticket extends DataStore {
             'date',
             'unread',
             'closed',
+	    'cloud_id',
             'priority',
             'author',
             'authorStaff',
@@ -107,6 +108,9 @@ class Ticket extends DataStore {
     }
 
     public function toArray($internalEvents = false) {
+	    if ($internalEvents === false) {
+		    $this->cloud_id = "NONE";
+	    }
         return [
             'ticketNumber' => $this->ticketNumber,
             'title' => $this->title,
@@ -124,7 +128,8 @@ class Ticket extends DataStore {
             'priority' => $this->priority,
             'author' => $this->authorToArray(),
             'owner' => $this->ownerToArray(),
-            'events' => $this->eventsToArray($internalEvents)
+            'events' => $this->eventsToArray($internalEvents),
+	    'cloud_id' => $this->cloud_id,
         ];
     }
 

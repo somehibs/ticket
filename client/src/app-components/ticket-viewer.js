@@ -55,7 +55,7 @@ class TicketViewer extends React.Component {
                         <Icon name={(ticket.language === 'en') ? 'us' : ticket.language}/>
                     </span>
                 </div>
-                {this.props.editable ? this.renderEditableHeaders() : this.renderHeaders()}
+                {this.renderHeaders(this.props.editable)}
                 <div className="ticket-viewer__content">
                     <TicketEvent type="COMMENT" author={ticket.author} content={ticket.content} date={ticket.date} file={ticket.file}/>
                 </div>
@@ -121,7 +121,7 @@ class TicketViewer extends React.Component {
         );
     }
 
-    renderHeaders() {
+    renderHeaders(editable) {
         const ticket = this.props.ticket;
         const priorities = {
             'low': 'LOW',
@@ -129,36 +129,68 @@ class TicketViewer extends React.Component {
             'high': 'HIGH'
         };
 
+	const priority = i18n(priorities[this.props.ticket.priority || 'low'])
+	    console.log(ticket)
+	const maybeUrl = "https://cloud.tripsit.me/s/"+ticket.cloud_id;
+
         return (
-            <div className="ticket-viewer__headers">
-                <div className="ticket-viewer__info-row-header row">
-                    <div className="ticket-viewer__department col-md-4">{i18n('DEPARTMENT')}</div>
-                    <div className="ticket-viewer__author col-md-4">{i18n('AUTHOR')}</div>
-                    <div className="ticket-viewer__date col-md-4">{i18n('DATE')}</div>
+            <div className="ticket-viewer__headers row">
+                <div className="col-md-4">
+                    <div className="ticket-viewer__info-row-header">{i18n('DEPARTMENT')}</div>
+                    <div className="ticket-viewer__info-row-values">{ticket.department.name}</div>
                 </div>
-                <div className="ticket-viewer__info-row-values row">
-                    <div className="ticket-viewer__department col-md-4">{ticket.department.name}</div>
-                    <div className="ticket-viewer__author col-md-4">{ticket.author.name}</div>
-                    <div className="ticket-viewer__date col-md-4">{DateTransformer.transformToString(ticket.date, false)}</div>
-                </div>
-                <div className="ticket-viewer__info-row-header row">
-                    <div className="ticket-viewer__department col-md-4">{i18n('PRIORITY')}</div>
-                    <div className="ticket-viewer__author col-md-4">{i18n('OWNER')}</div>
-                    <div className="ticket-viewer__date col-md-4">{i18n('STATUS')}</div>
-                </div>
-                <div className="ticket-viewer__info-row-values row">
-                    <div className="col-md-4">
-                        {i18n(priorities[this.props.ticket.priority || 'low'])}
+                <div className="col-md-4">
+                    <div className="ticket-viewer__info-row-header">{i18n('PRIORITY')}</div>
+                    <div className="ticket-viewer__info-row-values">
+                        {priority}
                     </div>
-                    <div className="col-md-4">
-                        {this.renderOwnerNode()}
-                    </div>
-                    <div className="col-md-4">
+                </div>
+                <div className="col-md-4">
+                    <div className="ticket-viewer__info-row-header">{i18n('OWNER')}</div>
+                    <div className="ticket-viewer__info-row-values">
+			{this.renderOwnerNode()}
+		    </div>
+                </div>
+                <div className="col-md-4">
+                    <div className="ticket-viewer__info-row-header">{i18n('STATUS')}</div>
+                    <div className="ticket-viewer__info-row-values">
                         {i18n((this.props.ticket.closed) ? 'CLOSED' : 'OPENED')}
-                    </div>
+		    </div>
                 </div>
+                <div className="col-md-4">
+                    <div className="ticket-viewer__info-row-header">{i18n('AUTHOR')}</div>
+                    <div className="ticket-viewer__info-row-values">
+			{ticket.author.name}
+		    </div>
+		</div>
+                <div className="col-md-4">
+                    <div className="ticket-viewer__info-row-header">{i18n('DATE')}</div>
+                    <div className="ticket-viewer__info-row-values">
+                    	{DateTransformer.transformToString(ticket.date, false)}
+		    </div>
+		</div>
+		{this.renderShareHeader()}
             </div>
         );
+    }
+
+    renderShareHeader() {
+	    if (this.props.ticket.cloud_id !== "NONE") {
+		    const url = "https://cloud.tripsit.me/s/"+this.props.ticket.cloud_id;
+		    return (
+                	<div className="col-md-4">
+                	    <div className="ticket-viewer__info-row-header">Cloud doc link</div>
+                	    <div className="ticket-viewer__info-row-values">
+				<a href={url}>Share link</a>}
+			    </div>
+                	</div>
+		    )
+	    }
+	return (null);
+    }
+
+    isStaff() {
+	    return this.props.userId !== undefined;
     }
 
     renderEditableOwnerNode() {
@@ -196,9 +228,6 @@ class TicketViewer extends React.Component {
 
     renderTicketEvent(options, index) {
 	let isMine = options.author.id === this.props.userId
-	    console.log("Author") 
-	    console.log(options.author)
-	    console.log(this.props.ticket.author)
         return (
             <TicketEvent {...options} isMine={isMine} author={(!_.isEmpty(options.author)) ? options.author : this.props.ticket.author} key={index} />
         );

@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const APIUtils = require('lib-core/APIUtils');
 const SessionStore = require('lib-app/session-store');
+const logging = false;
 
 function processData (data, dataAsForm = false) {
     let newData;
@@ -26,11 +27,11 @@ function processData (data, dataAsForm = false) {
 
 module.exports = {
     call: function ({path, data, plain, dataAsForm}) {
-        console.log('request ' + path, data);
+        if (logging) { console.log('request ' + path, data); }
         return new Promise(function (resolve, reject) {
             APIUtils.post(apiRoot + path, processData(data, dataAsForm), dataAsForm)
                 .then(function (result) {
-                    console.log(result);
+                    if (logging) { console.log(result); }
 
                     if (plain || result.status === 'success') {
                         resolve(result);

@@ -11,6 +11,10 @@
         padding: 6px 0;
     }
 
+    &__headers {
+        background-color: $light-grey;
+    }
+
     &__number {
         color: white;
         margin-right: 10px;
@@ -26,12 +30,10 @@
     }
 
     &__info-row-header {
-        background-color: $light-grey;
         font-weight: bold;
     }
 
     &__info-row-values {
-        background-color: $light-grey;
         color: $secondary-blue;
         padding-bottom: 10px;
     }

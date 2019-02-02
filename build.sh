@@ -2,7 +2,9 @@
 # server only copies $OUTPUT_DIR/api and doesn't overwrite config.php
 
 BUILD_SERVER=1
-#BUILD_CLIENT=1
+if [ ! -z $1 ]; then
+	BUILD_CLIENT=1
+fi
 COPY=1
 TARGET="dev"
 
