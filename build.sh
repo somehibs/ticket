@@ -17,6 +17,7 @@ if [[ $BUILD_CLIENT == 1 ]]; then
 	cd client
 	gulp prod --api
 	rm build/index.html
+	cp src/index.php build/index.php
 	cd ..
 fi
 if [[ $BUILD_SERVER == 1 ]]; then
@@ -52,6 +53,7 @@ if [[ $COPY == 1 ]]; then
 		cp client/build/js/main.js ../$TARGET/js/main.js
 		rm -r ../$TARGET/css/
 		cp -R client/build/css/ ../$TARGET/css/
+		cp client/build/index.php ../$TARGET/index.php
 	fi
 fi
 if [[ $BUILD_ZIP == 1 ]]; then

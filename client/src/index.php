@@ -10,7 +10,7 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
 
-        <title>OpenSupports</title>
+        <title>Tripticket</title>
 
         <link rel="stylesheet" href="<?=$url ?>/css/main.css">
         <link rel="icon" type="image/x-icon" href="<?=$url ?>/images/icon.png">
