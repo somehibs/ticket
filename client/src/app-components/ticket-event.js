@@ -8,6 +8,7 @@ import DateTransformer from 'lib-core/date-transformer';
 import Icon from 'core-components/icon';
 import Form from 'core-components/form';
 import Button from 'core-components/button';
+import AreYouSure from 'app-components/are-you-sure';
 
 class TicketEvent extends React.Component {
     static propTypes = {
@@ -161,21 +162,25 @@ class TicketEvent extends React.Component {
         );
     }
 
+    deleteEvent() {
+	    console.log('confirm, deleting')
+    }
+
     renderDelete() {
 	    if (this.props.author.id === undefined) {
 	 	//console.log("cannot delete external user")
 		return;
 	    } else if (this.props.isMine) {
-		console.log("we good")
-	 	console.log(this.props)
-		    return (<span></span>);
 		return (
-			<Form>
-			"Delete your post?"
-			<Button size="small" onClick={this.onDelete.bind(this)}>Delete post (no confirmation!)</Button>
-			</Form>
+
+			<Button onClick={this.confirmDelete.bind(this)}></Button>
 		)
 	    }
+    }
+
+    confirmDelete() {
+	    console.log(this.props)
+	AreYouSure.openModal("Delete post that says: " + this.props.content + "? This cannot be undone!", this.deleteEvent)
     }
 
     renderFileRow(file) {

@@ -93,7 +93,11 @@ class CommentController extends Controller {
 		throw new Exception(ERRORS::NO_PERMISSION);
         }
 
-        $this->storeComment();
+	if ($this->delete === "true") {
+		$this->deleteComment();
+	} else {
+	        $this->storeComment();
+	}
 
 
 		error_log("Permission denied ".$isOwner."|".$isAuthor."|".$this->internal);
@@ -119,6 +123,12 @@ class CommentController extends Controller {
         $this->ticket = Ticket::getByTicketNumber($ticketNumber);
         $this->content = Controller::request('content', true);
         $this->internal = Controller::request('internal');
+        $this->delete = Controller::request('delete');
+        $this->commentId = Controller::request('commentId');
+    }
+
+    private function deleteComment() {
+	    $this->ticket->remoteEvent($comment);
     }
 
     private function storeComment() {
