@@ -167,6 +167,12 @@ class TicketEvent extends React.Component {
     deleteEvent() {
 	    console.log('confirm, deleting')
 	    // Should remove this node from parent
+	    console.log(this.props)
+	    API.call({path: '/staff/delete-comment', data: {id: this.props.id}}).then(this.deleteResponse.bind(this))
+    }
+
+    deleteResponse() {
+	    console.log("Response received")
 	    var node = ReactDOM.findDOMNode(this)
 	    node.parentNode.removeChild(node)
     }

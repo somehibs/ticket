@@ -175,6 +175,7 @@ class Ticket extends DataStore {
 	    }
 
             $event = [
+		'id' => $ticketEvent->id,
                 'type' => $ticketEvent->type,
                 'content'=> $ticketEvent->content,
                 'author' => [],
