@@ -53,7 +53,8 @@ if [[ $COPY == 1 ]]; then
 		cp client/build/js/main.js ../$TARGET/js/main.js
 		rm -r ../$TARGET/css/
 		cp -R client/build/css/ ../$TARGET/css/
-		cp client/build/index.php ../$TARGET/index.php
+		cp client/src/index.php ../$TARGET/index.php
+		cp client/src/spinner.js ../$TARGET/js/spinner.js
 	fi
 fi
 if [[ $BUILD_ZIP == 1 ]]; then
