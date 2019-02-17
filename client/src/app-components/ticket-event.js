@@ -171,11 +171,16 @@ class TicketEvent extends React.Component {
 	 	//console.log("cannot delete external user")
 		return;
 	    } else if (this.props.isMine) {
-		return (
-
-			<Button onClick={this.confirmDelete.bind(this)}></Button>
-		)
-	    }
+		    if (this.props.type === 'INTERNAL_COMMENT') {
+			return (
+				<Button onClick={this.confirmDelete.bind(this)}></Button>
+			)
+		    } else {
+			return (
+				<span>Cannot change comments that have already been sent to the user via email.</span>
+			)
+		    }
+            }
     }
 
     confirmDelete() {
