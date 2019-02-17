@@ -212,15 +212,19 @@ var opts = {
 };
 
 var spinner = undefined;
+var loaded = false;
 function loadingSpinner(element) {
 		var target = document.getElementById(element);
 		spinner = new Spinner(opts).spin(target);
 	console.log("loaded spinner: " + spinner + " into target " + target);
 }
 setTimeout(function(){
-loadingSpinner("spinner")
+	if (!loaded) {
+		loadingSpinner("spinner")
+	}
 }, 500)
 window.onload = function() {
+	loaded = true
 	spinner.stop()
 	var loadingText1 = document.getElementById('loading1')
 	var loadingText2 = document.getElementById('loading2')
