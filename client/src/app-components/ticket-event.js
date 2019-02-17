@@ -9,6 +9,7 @@ import Icon from 'core-components/icon';
 import Form from 'core-components/form';
 import Button from 'core-components/button';
 import AreYouSure from 'app-components/are-you-sure';
+import ReactDOM from 'react-dom';
 
 class TicketEvent extends React.Component {
     static propTypes = {
@@ -91,6 +92,7 @@ class TicketEvent extends React.Component {
                     <span className="ticket-event__comment-author-name">{this.props.author.name}</span>
                     <span className="ticket-event__comment-author-type">({i18n((this.props.author.staff) ? 'STAFF' : 'CUSTOMER')})</span>
 			{this.props.type === 'INTERNAL_COMMENT' ? <span className="ticket-event__comment-type">Internal comment</span> : undefined}
+			{this.props.author.id !== undefined && this.props.type === 'COMMENT' ? <span className="ticket-event__comment-type"></span> : undefined}
                 </div>
                 <div className="ticket-event__comment-date">{DateTransformer.transformToString(this.props.date)}</div>
                 <div className={this.props.type === 'INTERNAL_COMMENT' ? "ticket-event__comment-internal-content" : "ticket-event__comment-content"} dangerouslySetInnerHTML={{__html: this.props.content}}></div>
@@ -164,6 +166,9 @@ class TicketEvent extends React.Component {
 
     deleteEvent() {
 	    console.log('confirm, deleting')
+	    // Should remove this node from parent
+	    var node = ReactDOM.findDOMNode(this)
+	    node.parentNode.removeChild(node)
     }
 
     renderDelete() {
@@ -173,19 +178,14 @@ class TicketEvent extends React.Component {
 	    } else if (this.props.isMine) {
 		    if (this.props.type === 'INTERNAL_COMMENT') {
 			return (
-				<Button onClick={this.confirmDelete.bind(this)}></Button>
-			)
-		    } else {
-			return (
-				<span>Cannot change comments that have already been sent to the user via email.</span>
+				<Button onClick={this.confirmDelete.bind(this)}>Delete your comment</Button>
 			)
 		    }
             }
     }
 
     confirmDelete() {
-	    console.log(this.props)
-	AreYouSure.openModal("Delete post that says: " + this.props.content + "? This cannot be undone!", this.deleteEvent)
+	AreYouSure.openModal("Delete post: " + this.props.content + "? This cannot be undone!", this.deleteEvent.bind(this))
     }
 
     renderFileRow(file) {
