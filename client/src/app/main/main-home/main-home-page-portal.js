@@ -20,10 +20,13 @@ class MainHomePagePortal extends React.Component {
                     <Header title={this.props.title || i18n('SUPPORT_CENTER')} description={i18n('SUPPORT_CENTER_DESCRIPTION')} />
                 </div>
                 <div className="main-home-page-portal__cards">
-                    <div className="main-home-page-portal__card col-md-6">
+                    <div className="main-home-page-portal__card col-md-3">
+                        <Card {...this.getTicketsCardProps()} />
+                    </div>
+                    <div className="main-home-page-portal__card col-md-3">
                         <Card {...((this.props.type === 'complete') ? this.getViewTicketCardProps() : this.getAccountCardProps())} />
                     </div>
-                    <div className="main-home-page-portal__card col-md-6">
+                    <div className="main-home-page-portal__card col-md-3">
                         <Card {...this.getAdminCardProps()} />
                     </div>
                 </div>

@@ -171,7 +171,7 @@ class AdminPanelMenu extends React.Component {
 //            },
             {
 
-                groupName: i18n('STAFF'),
+                groupName: i18n('ORGANISATION'),
                 path: '/admin/panel/staff',
                 icon: 'users',
                 level: 3,
