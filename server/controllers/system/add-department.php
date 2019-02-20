@@ -34,11 +34,13 @@ class AddDepartmentController extends Controller {
 
     public function handler() {
         $name = Controller::request('name');
+        $template = Controller::request('template');
 
         $departmentInstance = new Department();
 
         $departmentInstance->setProperties([
             'name' => $name,
+            'template' => $template,
         ]);
         $departmentInstance->store();
 

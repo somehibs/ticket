@@ -29,8 +29,8 @@ class AdminPanelDepartments extends React.Component {
         edited: false,
         errors: {},
         form: {
-            title: '',
-            language: 'en'
+		'name': '',
+		'template': ''
         }
     };
 
@@ -45,6 +45,7 @@ class AdminPanelDepartments extends React.Component {
                     <div className="col-md-8">
                         <Form {...this.getFormProps()}>
                             <FormField label={i18n('NAME')} name="name" validation="NAME" required fieldProps={{size: 'large'}}/>
+				<FormField label={i18n('TEMPLATE')} name="template" validation="TEXT_AREA" decorator={'textarea'} fieldProps={{className: 'admin-panel-departments__text-area'}} />
                             <SubmitButton size="medium" className="admin-panel-departments__update-name-button" type="secondary">
                                 {i18n((this.state.selectedIndex !== -1) ? 'UPDATE_DEPARTMENT' : 'ADD_DEPARTMENT')}
                             </SubmitButton>
@@ -139,12 +140,10 @@ class AdminPanelDepartments extends React.Component {
         this.setState({formLoading: true, edited: false});
 
         if(this.state.selectedIndex !== -1) {
+		form.departmentId = this.getCurrentDepartment().id
             API.call({
                 path: '/system/edit-department',
-                data: {
-                    departmentId: this.getCurrentDepartment().id,
-                    name: form.name
-                }
+                data: form
             }).then(() => {
                 this.setState({formLoading: false});
                 this.retrieveDepartments();
@@ -153,7 +152,8 @@ class AdminPanelDepartments extends React.Component {
             API.call({
                 path: '/system/add-department',
                 data: {
-                    name: form.name
+                    name: form.name,
+		    template: form.template
                 }
             }).then(() => {
                 this.retrieveDepartments();
@@ -192,6 +192,7 @@ class AdminPanelDepartments extends React.Component {
         let department = this.getCurrentDepartment(index);
 
         form.name = (department && department.name) || '';
+        form.template = (department && department.template) || '';
 
         this.setState({
             selectedIndex: index,

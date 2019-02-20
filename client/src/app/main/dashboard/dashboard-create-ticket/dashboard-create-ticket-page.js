@@ -16,7 +16,7 @@ class DashboardCreateTicketPage extends React.Component {
     render() {
         let Wrapper = 'div';
 
-        if((this.props.location.pathname === '/create-ticket')) {
+        if(true){//(this.props.location.pathname === '/create-ticket')) {
             Wrapper = Widget;
         }
 
@@ -24,7 +24,7 @@ class DashboardCreateTicketPage extends React.Component {
             <div className={this.getClass()}>
                 <Wrapper>
                     <CreateTicketForm
-                        userLogged={(this.props.location.pathname !== '/create-ticket')}
+                        userLogged={false}
                         onSuccess={this.onCreateTicketSuccess.bind(this)}/>
                 </Wrapper>
             </div>
@@ -43,7 +43,7 @@ class DashboardCreateTicketPage extends React.Component {
     getClass() {
         let classes = {
             'dashboard-create-ticket-page': true,
-            'dashboard-create-ticket-page_wrapped': (this.props.location.pathname === '/create-ticket'),
+            'dashboard-create-ticket-page_wrapped': true,
             'col-md-10 col-md-offset-1': (!this.props.config['user-system-enabled'])
         };
 

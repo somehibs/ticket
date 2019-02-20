@@ -2,6 +2,10 @@
 
 .admin-panel-departments {
 
+    &__text-area {
+	    width: 100%;
+	    height: 160px;
+    }
 
     &__list {
         position: relative;

@@ -57,7 +57,8 @@ class GetStaffController extends Controller {
         foreach($departmentList as $department) {
             $parsedDepartmentList[] = [
                 'id' => $department->id,
-                'name' => $department->name
+                'name' => $department->name,
+                'template' => $department->template
             ];
         }
 

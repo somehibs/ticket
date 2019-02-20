@@ -71,7 +71,9 @@ export default (
 //                <Route path='recover-password' component={MainRecoverPasswordPage}/>
 //                <Route path='maintenance' component={MainMaintenancePage}/>
 //
-//                <Route path='create-ticket' component={DashboardCreateTicketPage}/>
+                <Route path='create-ticket' component={DashboardCreateTicketPage}/>
+                <Route path='appeal' component={DashboardCreateTicketPage}/>
+                <Route path='apply' component={DashboardCreateTicketPage}/>
                 <Route path='check-ticket(/:ticketNumber/:email)' component={MainCheckTicketPage}/>
                 <Route path='view-ticket/:ticketNumber' component={MainViewTicketPage}/>
 //                <Route path='articles' component={DashboardListArticlesPage}/>

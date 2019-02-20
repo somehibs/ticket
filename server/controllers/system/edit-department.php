@@ -47,11 +47,13 @@ class EditDepartmentController extends Controller {
 
     public function handler() {
         $newname = Controller::request('name');
+        $newtemplate = Controller::request('template');
         $departmentId = Controller::request('departmentId');
 
         $departmentInstance = Department::getDataStore($departmentId);
 
-        $departmentInstance->name = $newname ;
+        $departmentInstance->name = $newname;
+        $departmentInstance->template = $newtemplate;
 
         $departmentInstance->store();
 
