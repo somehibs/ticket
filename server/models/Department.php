@@ -17,13 +17,15 @@ class Department extends DataStore {
         return [
             'name',
             'sharedTicketList',
-            'owners'
+	    'owners',
+	    'template'
         ];
     }
     
     public function getDefaultProps() {
         return [
-            'owners' => 0 
+		'owners' => 0,
+		'template' => ''
         ];
     }
 
@@ -35,7 +37,8 @@ class Department extends DataStore {
             $departmentsNameList[] = [
                 'id' => $department->id,
                 'name' => $department->name,
-                'owners' => $department->owners
+                'owners' => $department->owners,
+		'template' => $department->template
             ];
         }
         
@@ -45,7 +48,8 @@ class Department extends DataStore {
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'owners' => $this->owners
+            'owners' => $this->owners,
+	    'template' => $this->template
         ];
     }
 }
