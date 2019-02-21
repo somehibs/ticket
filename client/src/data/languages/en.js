@@ -21,6 +21,7 @@ export default {
     'VIEW_ARTICLES': 'View Articles',
     'EDIT_PROFILE': 'Edit Profile',
     'CLOSE_SESSION': 'Logout',
+    'NICK': 'Nick',
     'CREATE_TICKET': 'Create Ticket',
     'TICKET_LIST': 'Ticket List',
     'SUPPORT_CENTER': 'Support Center',

@@ -40,6 +40,11 @@ class CreateTicketForm extends React.Component {
         }
     };
 
+	componentDidMount() {
+		// Component mounted, check if we need to set the departmentIndex to something based on the path
+		console.log(this.props.location)
+	}
+
     render() {
         return (
             <div className="create-ticket-form">
@@ -52,10 +57,6 @@ class CreateTicketForm extends React.Component {
                             items: SessionStore.getDepartments().map((department) => {return {content: department.name}}),
                             size: 'medium'
                         }} />
-                        <FormField className="col-md-5" label={i18n('LANGUAGE')} name="language" field="select" decorator={LanguageSelector} fieldProps={{
-                            type: 'supported',
-                            size: 'medium'
-                        }}/>
                     </div>
                     <FormField label={i18n('CONTENT')} name="content" validation="TEXT_AREA" required field="textarea" />
                     {(this.props.allowAttachments) ? this.renderFileUpload() : null}
@@ -71,7 +72,7 @@ class CreateTicketForm extends React.Component {
         return (
             <div className="row">
                 <FormField className="col-md-6" label={i18n('EMAIL')} name="email" validation="EMAIL" required field="input" fieldProps={{size: 'large'}}/>
-                <FormField className="col-md-6" label={i18n('FULL_NAME')} name="name" validation="NAME" required field="input" fieldProps={{size: 'large'}}/>
+                <FormField className="col-md-6" label={i18n('NICK')} name="name" validation="NAME" required field="input" fieldProps={{size: 'large'}}/>
             </div>
         );
     }
