@@ -1,4 +1,11 @@
 .create-ticket-form {
+	&__input {
+		width: 75%;
+	}
+
+	&__input[type="textarea"] {
+		height: 200px;
+	}
 
     &__file {
         text-align: left;

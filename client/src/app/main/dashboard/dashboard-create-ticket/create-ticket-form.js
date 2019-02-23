@@ -68,7 +68,10 @@ class CreateTicketForm extends React.Component {
 	    if (tpl === null) {
 		    return "dept has no tpl"
 	    }
-	    tpl = tpl.replace('\n', '</br>')
+	    tpl = tpl.replace(/\n/g, '</br>')
+	    const regex = /\[([a-zA-Z]+) ([a-zA-Z\-]+)\]/g
+	    console.log(tpl.match(regex))
+	    tpl = tpl.replace(regex, '<input class="create-ticket-form__input" type="$1" name="$2"/>')
 	return tpl
     }
 
