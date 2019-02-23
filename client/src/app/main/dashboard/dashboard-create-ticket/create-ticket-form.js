@@ -1,4 +1,4 @@
-import React              from 'react';
+import React, {Fragment}              from 'react';
 import _                  from 'lodash';
 import {connect} from 'react-redux';
 
@@ -40,25 +40,20 @@ class CreateTicketForm extends React.Component {
         }
     };
 
-	componentDidMount() {
-		// Component mounted, check if we need to set the departmentIndex to something based on the path
-		console.log(this.props.location)
-	}
-
     render() {
         return (
             <div className="create-ticket-form">
                 <Header title={i18n('CREATE_TICKET')} description={i18n('CREATE_TICKET_DESCRIPTION')} />
                 <Form {...this.getFormProps()}>
                     {(!this.props.userLogged) ? this.renderEmailAndName() : null}
-                    <FormField label={i18n('TITLE')} name="title" validation="TITLE" required field="input" fieldProps={{size: 'large'}}/>
+		{false?<FormField label={i18n('TITLE')} name="title" validation="TITLE" required field="input" fieldProps={{size: 'large'}}/>:null}
                     <div className="row">
-                        <FormField className="col-md-5" label={i18n('DEPARTMENT')} name="departmentIndex" field="select" fieldProps={{
+		{(this.props.selectedDepartment === -1) ? <FormField className="col-md-5" label={i18n('DEPARTMENT')} name="departmentIndex" field="select" fieldProps={{
                             items: SessionStore.getDepartments().map((department) => {return {content: department.name}}),
                             size: 'medium'
-                        }} />
+                        }} /> : null}
                     </div>
-                    <FormField label={i18n('CONTENT')} name="content" validation="TEXT_AREA" required field="textarea" />
+		{this.renderDepartmentTemplate()}
                     {(this.props.allowAttachments) ? this.renderFileUpload() : null}
                     {(!this.props.userLogged) ? this.renderCaptcha() : null}
                     <SubmitButton>{i18n('CREATE_TICKET')}</SubmitButton>
@@ -66,6 +61,33 @@ class CreateTicketForm extends React.Component {
                 {this.renderMessage()}
             </div>
         );
+    }
+
+    fixTemplate(tpl) {
+	    console.log("wuh oh")
+	    if (tpl === null) {
+		    return "dept has no tpl"
+	    }
+	    tpl = tpl.replace('\n', '</br>')
+	return tpl
+    }
+
+    renderDepartmentTemplate() {
+	    if (this.props.selectedDepartment !== -1) {
+		    this.state.form.departmentIndex = this.props.selectedDepartment
+	    }
+	    if (this.state.form.departmentIndex === undefined) {
+		    this.state.form.departmentIndex = 0
+	    }
+	    this.state.selectedDepartment = this.getDepartment(this.state.form.departmentIndex)
+	    const template = this.fixTemplate(this.state.selectedDepartment.template)
+		    console.log("rendering tpl")
+	    console.log(template)
+	    return (<div style={{'text-align':'left'}} dangerouslySetInnerHTML={{__html: template}}/>)
+    }
+
+    getDepartment(index) {
+	return SessionStore.getDepartments()[index]
     }
 
     renderEmailAndName() {

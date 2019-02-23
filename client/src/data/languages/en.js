@@ -252,7 +252,7 @@ export default {
     'STEP_7_DESCRIPTION': 'Installation is completed.',
 
     //VIEW DESCRIPTIONS
-    'CREATE_TICKET_DESCRIPTION': 'This is a form for creating tickets. Fill the form and send us your issues/doubts/suggestions. Our support system will answer it as soon as possible.',
+    'CREATE_TICKET_DESCRIPTION': 'We will endeavour to answer within two weeks, idealy sooner. You may continue to comment on the ticket if you remember additional information about your ticket.',
     'TICKET_LIST_DESCRIPTION': 'Here you can find a list of all tickets you have sent to our support team.',
     'TICKETS_DESCRIPTION': 'Send ticket through our support center and get response of your doubts, suggestions and issues.',
     'ARTICLES_DESCRIPTION': 'Take a look to our articles about common issues, guides and documentation.',
