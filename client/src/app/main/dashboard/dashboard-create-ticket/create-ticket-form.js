@@ -64,13 +64,14 @@ class CreateTicketForm extends React.Component {
     }
 
     fixTemplate(tpl) {
-	    console.log("wuh oh")
+	    const ta = /\[textarea ([a-zA-Z\-]+)\]/g
+	    const regex = /\[([a-zA-Z]+) ([a-zA-Z\-]+)\]/g
+
 	    if (tpl === null) {
-		    return "dept has no tpl"
+		    return "This department is not ready for new tickets yet."
 	    }
 	    tpl = tpl.replace(/\n/g, '</br>')
-	    const regex = /\[([a-zA-Z]+) ([a-zA-Z\-]+)\]/g
-	    console.log(tpl.match(regex))
+	    tpl = tpl.replace(ta, '<textarea class="create-ticket-form__area" name="$1"></textarea>')
 	    tpl = tpl.replace(regex, '<input class="create-ticket-form__input" type="$1" name="$2"/>')
 	return tpl
     }
