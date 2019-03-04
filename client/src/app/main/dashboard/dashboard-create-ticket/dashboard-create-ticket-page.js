@@ -40,6 +40,8 @@ class DashboardCreateTicketPage extends React.Component {
 	    department = "Tripsitter applications"
 	} else if (route.indexOf("appeal") !== -1) {
 	    department = "Ban appeals"
+	} else if (route.indexOf("hr-organisation") !== -1) {
+	    department = "Harm Reduction Experts"
 	}
 	if (department !== undefined) {
 		// Fetch the deparments, find the index of this department (in case db order changes)

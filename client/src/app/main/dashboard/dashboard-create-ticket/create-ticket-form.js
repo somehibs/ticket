@@ -13,6 +13,7 @@ import Header             from 'core-components/header';
 import TextEditor         from 'core-components/text-editor';
 import Form               from 'core-components/form';
 import FormField          from 'core-components/form-field';
+import CheckboxGroup from 'core-components/checkbox-group';
 import SubmitButton       from 'core-components/submit-button';
 import Message            from 'core-components/message';
 
@@ -63,17 +64,58 @@ class CreateTicketForm extends React.Component {
         );
     }
 
-    fixTemplate(tpl) {
-	    const ta = /\[textarea ([a-zA-Z\-]+)\]/g
-	    const regex = /\[([a-zA-Z]+) ([a-zA-Z\-]+)\]/g
+    decomposeTemplate(tpl) {
+	    const fieldRegex = /(\[[a-zA-Z\*]+ [a-zA-Z\-]+ *["a-zA-Z ]*\])/g
+	    return tpl.split(fieldRegex)
+    }
 
+    renderTemplate(tpl) {
 	    if (tpl === null) {
 		    return "This department is not ready for new tickets yet."
 	    }
-	    tpl = tpl.replace(/\n/g, '</br>')
-	    tpl = tpl.replace(ta, '<textarea class="create-ticket-form__area" name="$1"></textarea>')
-	    tpl = tpl.replace(regex, '<input class="create-ticket-form__input" type="$1" name="$2"/>')
-	return tpl
+	    //tpl = tpl.replace(/\n/g, '</br>')
+	    const fieldMatch = /\[([a-zA-Z\*]+) ([a-zAi -Z\-]+) *(["a-zA-Z ]*)\]/
+	    var matched = this.decomposeTemplate(tpl)
+	    console.log(matched)
+	    var rendered = []
+	    var checkboxes = []
+	    for (let i in matched) {
+		    if (i == matched.length-1) {
+			    break
+		    }
+		    const match = matched[i]
+		    var fields = match.match(fieldMatch)
+		    var checkboxed = 0
+		    if (fields !== null) {
+			    var req = false
+			    if (fields[1].indexOf("*") === fields[1].length-1) {
+				    fields[1] = fields[1].substring(0, fields[1].length-1)
+				    req = true
+			    }
+			    if (fields[1].indexOf("checkbox") === 0) {
+				    // Checkbox.
+				    // Store each field in a list until you see a non-checkbox field, then render them all
+				    checkboxed = 1
+				    console.log("Checkbox")
+				    console.log(fields)
+				    checkboxes.push(fields[2])
+			    } else if (fields[1].indexOf("textarea") === 0) {
+				    rendered.push(<FormField key={i} name={"template__"+fields[2]} required={req} validation="TEXT_AREA" decorator={"textarea"}/>)
+			    } else if (fields[1].indexOf("text") === 0) {
+				    rendered.push(<FormField key={i} name={"template__"+fields[2]} validation="TEXT_AREA" type="text"/>)
+			    } else {
+				    rendered.push(<span key={i}>Unknown field {fields[1]}</span>)
+			    }
+		    } else {
+			    rendered.push(<div key={i} dangerouslySetInnerHTML={{__html:match}}/>)
+		    }
+		    if (checkboxes.length > 0 && checkboxed == 0) {
+			    // Render all of the checkboxes in one group
+			    rendered.push(<CheckboxGroup items={checkboxes} />)
+			    checkboxes = []
+		    }
+	    }
+	    return rendered
     }
 
     renderDepartmentTemplate() {
@@ -84,10 +126,8 @@ class CreateTicketForm extends React.Component {
 		    this.state.form.departmentIndex = 0
 	    }
 	    this.state.selectedDepartment = this.getDepartment(this.state.form.departmentIndex)
-	    const template = this.fixTemplate(this.state.selectedDepartment.template)
-		    console.log("rendering tpl")
-	    console.log(template)
-	    return (<div style={{'text-align':'left'}} dangerouslySetInnerHTML={{__html: template}}/>)
+	    const template = this.renderTemplate(this.state.selectedDepartment.template)
+	    return (<div style={{'textAlign':'left'}}>{template}</div>)
     }
 
     getDepartment(index) {
@@ -139,12 +179,38 @@ class CreateTicketForm extends React.Component {
         };
     }
 
+	templateToContent(form) {
+		if (this.state.selectedDepartment.template === null) {
+			throw new Exception("Cannot submit form without template")
+		}
+	    var content = this.decomposeTemplate(this.state.selectedDepartment.template)
+	    const fieldMatch = /\[([a-zA-Z]+) ([a-zA-Z\-]+)\]/
+		var atLeastOneFieldFilled = false
+		for (let i in content) {
+			var field = content[i]
+			var decomposedField = field.match(fieldMatch)
+			if (decomposedField !== null) {
+				if ('template__'+decomposedField[2] in form) {
+					atLeastOneFieldFilled = true
+					console.log("Found matching field")
+				} else {
+					console.log("Field " + decomposedField[2] + " has no form data")
+				}
+			}
+		}
+		if (atLeastOneFieldFilled === false) {
+			throw new Exception("cannot submit form, one field must be filled in")
+		}
+		return form
+	}
+
     onSubmit(formState) {
         let captcha = this.refs.captcha && this.refs.captcha.getWrappedInstance();
 
         if (captcha && !captcha.getValue()) {
             captcha.focus();
         } else {
+		formState = this.templateToContent(formState)
             this.setState({
                 loading: true
             });
