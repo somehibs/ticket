@@ -25,7 +25,8 @@ class CreateTicketForm extends React.Component {
     };
 
     static defaultProps = {
-        userLogged: true
+        userLogged: true,
+        fieldMatch: /\[([a-zA-Z\*]+) ([a-zAi -Z\-]+) *(["a-zA-Z ]*)\]/
     };
 
     state = {
@@ -74,7 +75,6 @@ class CreateTicketForm extends React.Component {
 		    return "This department is not ready for new tickets yet."
 	    }
 	    //tpl = tpl.replace(/\n/g, '</br>')
-	    const fieldMatch = /\[([a-zA-Z\*]+) ([a-zAi -Z\-]+) *(["a-zA-Z ]*)\]/
 	    var matched = this.decomposeTemplate(tpl)
 	    console.log(matched)
 	    var rendered = []
@@ -84,7 +84,7 @@ class CreateTicketForm extends React.Component {
 			    break
 		    }
 		    const match = matched[i]
-		    var fields = match.match(fieldMatch)
+		    var fields = match.match(this.props.fieldMatch)
 		    var checkboxed = 0
 		    if (fields !== null) {
 			    var req = false
@@ -96,9 +96,11 @@ class CreateTicketForm extends React.Component {
 				    // Checkbox.
 				    // Store each field in a list until you see a non-checkbox field, then render them all
 				    checkboxed = 1
-				    console.log("Checkbox")
-				    console.log(fields)
-				    checkboxes.push(fields[2])
+				    var fieldType = fields[2].split(' ', 1)[0]
+				    var fieldName = fields[2].substring(fieldType.length)
+				    console.log("Field type: " + fieldType)
+				    console.log("Field name: " + fieldName)
+				    checkboxes.push(fieldName.substring(2, fieldName.length-1))
 			    } else if (fields[1].indexOf("textarea") === 0) {
 				    rendered.push(<FormField key={i} name={"template__"+fields[2]} required={req} validation="TEXT_AREA" decorator={"textarea"}/>)
 			    } else if (fields[1].indexOf("text") === 0) {
@@ -184,11 +186,20 @@ class CreateTicketForm extends React.Component {
 			throw new Exception("Cannot submit form without template")
 		}
 	    var content = this.decomposeTemplate(this.state.selectedDepartment.template)
-	    const fieldMatch = /\[([a-zA-Z]+) ([a-zA-Z\-]+)\]/
 		var atLeastOneFieldFilled = false
+		console.log("About to expose content conversion based ontemplate")
+		console.log(content)
 		for (let i in content) {
+			if (content[i] === undefined) {
+				break
+			}
 			var field = content[i]
-			var decomposedField = field.match(fieldMatch)
+			if (field === undefined || field.match === undefined) {
+				console.log("Warning, could not find " + i + " in content")
+				console.log(content)
+				continue
+			}
+			var decomposedField = field.match(this.props.fieldMatch)
 			if (decomposedField !== null) {
 				if ('template__'+decomposedField[2] in form) {
 					atLeastOneFieldFilled = true
