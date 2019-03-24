@@ -76,7 +76,6 @@ class CreateTicketForm extends React.Component {
 	    }
 	    //tpl = tpl.replace(/\n/g, '</br>')
 	    var matched = this.decomposeTemplate(tpl)
-	    console.log(matched)
 	    var rendered = []
 	    var checkboxes = []
 	    for (let i in matched) {
@@ -167,6 +166,8 @@ class CreateTicketForm extends React.Component {
                 return <Message className="create-ticket-form__message" type="success">{i18n('TICKET_SENT')}</Message>;
             case 'fail':
                 return <Message className="create-ticket-form__message" type="error">{i18n('TICKET_SENT_ERROR')}</Message>;
+	case 'empty':
+                return <Message className="create-ticket-form__message" type="error">Please fill in at least one field.</Message>;
             default:
                 return null;
         }
@@ -187,8 +188,7 @@ class CreateTicketForm extends React.Component {
 		}
 	    var content = this.decomposeTemplate(this.state.selectedDepartment.template)
 		var atLeastOneFieldFilled = false
-		console.log("About to expose content conversion based ontemplate")
-		console.log(content)
+		form['content'] = ''
 		for (let i in content) {
 			if (content[i] === undefined) {
 				break
@@ -196,21 +196,28 @@ class CreateTicketForm extends React.Component {
 			var field = content[i]
 			if (field === undefined || field.match === undefined) {
 				console.log("Warning, could not find " + i + " in content")
-				console.log(content)
 				continue
 			}
 			var decomposedField = field.match(this.props.fieldMatch)
 			if (decomposedField !== null) {
-				if ('template__'+decomposedField[2] in form) {
+				var decompName = 'template__'+decomposedField[2]
+				if (decompName in form) {
 					atLeastOneFieldFilled = true
-					console.log("Found matching field")
+					form['content'] += '</br>['+decomposedField[2] + ']</br>'
+					form['content'] += form[decompName]+'</br>'
 				} else {
-					console.log("Field " + decomposedField[2] + " has no form data")
+					form['content'] += '['+decomposedField[2] + ' missing]'
+					//checkbox?
+					//console.log("Field " + decomposedField[2] + " has no form data")
 				}
+				delete form[decompName]
+			} else {
+				console.log('content: ' + field)
+				form['content'] += field + '</br>'
 			}
 		}
 		if (atLeastOneFieldFilled === false) {
-			throw new Exception("cannot submit form, one field must be filled in")
+			return undefined
 		}
 		return form
 	}
@@ -222,6 +229,14 @@ class CreateTicketForm extends React.Component {
             captcha.focus();
         } else {
 		formState = this.templateToContent(formState)
+		if (formState === undefined) {
+		        this.setState({
+		            loading: false,
+		            message: 'empty'
+		        });
+			return
+		}
+	formState['title'] = formState['name'] + ' submitted this ticket.'
             this.setState({
                 loading: true
             });
