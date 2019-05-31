@@ -203,10 +203,10 @@ class CreateTicketForm extends React.Component {
 				var decompName = 'template__'+decomposedField[2]
 				if (decompName in form) {
 					atLeastOneFieldFilled = true
-					form['content'] += '</br>['+decomposedField[2] + ']</br>'
-					form['content'] += form[decompName]+'</br>'
+					form['content'] += '\r\n['+decomposedField[2] + ']\r\n'
+					form['content'] += form[decompName]+'\r\n'
 				} else {
-					form['content'] += '['+decomposedField[2] + ' missing]'
+					form['content'] += '\r\n['+decomposedField[2] + ' missing]\r\n'
 					//checkbox?
 					//console.log("Field " + decomposedField[2] + " has no form data")
 				}

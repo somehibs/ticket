@@ -85,6 +85,7 @@ class TicketEvent extends React.Component {
     }
 
     renderComment(internal) {
+                var newlined = this.props.content.replace(/(?:\r\n|\r|\n)/g, '<br>');
         return (
             <div className="ticket-event__comment">
                 <span className="ticket-event__comment-pointer" />
@@ -95,7 +96,7 @@ class TicketEvent extends React.Component {
 			{this.props.author.id !== undefined && this.props.type === 'COMMENT' ? <span className="ticket-event__comment-type"></span> : undefined}
                 </div>
                 <div className="ticket-event__comment-date">{DateTransformer.transformToString(this.props.date)}</div>
-                <div className={this.props.type === 'INTERNAL_COMMENT' ? "ticket-event__comment-internal-content" : "ticket-event__comment-content"} dangerouslySetInnerHTML={{__html: this.props.content}}></div>
+                <div className={this.props.type === 'INTERNAL_COMMENT' ? "ticket-event__comment-internal-content" : "ticket-event__comment-content"} dangerouslySetInnerHTML={{__html: newlined}}></div>
                 {this.renderFileRow(this.props.file)}
                 {this.renderDelete()}
             </div>
