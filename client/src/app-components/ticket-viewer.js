@@ -175,13 +175,13 @@ class TicketViewer extends React.Component {
     }
 
     renderShareHeader() {
-	    if (this.props.ticket.cloud_id !== "NONE") {
+	    if (this.props.ticket.cloud_id !== "NONE" && this.props.ticket.cloud_id !== "null" && this.props.ticket.cloud_id !== null) {
 		    const url = "https://cloud.tripsit.me/s/"+this.props.ticket.cloud_id;
 		    return (
                 	<div className="col-md-4">
                 	    <div className="ticket-viewer__info-row-header">Cloud doc link</div>
                 	    <div className="ticket-viewer__info-row-values">
-				<a href={url}>Share link</a>}
+				<a href={url}>Share link</a>
 			    </div>
                 	</div>
 		    )
