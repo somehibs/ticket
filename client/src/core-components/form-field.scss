@@ -1,5 +1,11 @@
 @import "../scss/vars";
 
+.form-field > textarea {
+	width: 90%;
+	height: 80px;
+	margin: auto;
+}
+
 .form-field {
     display: block;
     margin-bottom: 20px;
