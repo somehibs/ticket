@@ -2,8 +2,8 @@
 class LinearCongruentialGenerator {
     private $gap;
     private $first;
-    private $min = 100000;
-    private $max = 999999;
+    private $min = 100000000;
+    private $max = 999999999;
 
     public function setRange($min, $max) {
         $this->min = $min;

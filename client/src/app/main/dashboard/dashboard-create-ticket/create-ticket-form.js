@@ -74,7 +74,7 @@ class CreateTicketForm extends React.Component {
 	    if (tpl === null) {
 		    return "This department is not ready for new tickets yet."
 	    }
-	    //tpl = tpl.replace(/\n/g, '</br>')
+	    //tpl = tpl.replace(/</br>/g, '')
 	    var matched = this.decomposeTemplate(tpl)
 	    var rendered = []
 	    var checkboxes = []
@@ -184,9 +184,9 @@ class CreateTicketForm extends React.Component {
 
 	templateToContent(form) {
 		if (this.state.selectedDepartment.template === null) {
-			throw new Exception("Cannot submit form without template")
+			throw "Cannot submit form without template"
 		}
-	    var content = this.decomposeTemplate(this.state.selectedDepartment.template)
+	        var content = this.decomposeTemplate(this.state.selectedDepartment.template)
 		var atLeastOneFieldFilled = false
 		form['content'] = ''
 		for (let i in content) {
@@ -236,7 +236,7 @@ class CreateTicketForm extends React.Component {
 		        });
 			return
 		}
-	formState['title'] = formState['name'] + ' submitted this ticket.'
+            formState.title = SessionStore.getDepartments()[formState.departmentIndex].name
             this.setState({
                 loading: true
             });

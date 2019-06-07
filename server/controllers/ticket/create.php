@@ -55,7 +55,7 @@ class CreateController extends Controller {
                     'error' => ERRORS::INVALID_TITLE
                 ],
                 'content' => [
-                    'validation' => DataValidator::length(10, 5000),
+                    'validation' => DataValidator::length(25, 100000),
                     'error' => ERRORS::INVALID_CONTENT
                 ],
                 'departmentId' => [
