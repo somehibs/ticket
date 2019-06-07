@@ -103,7 +103,7 @@ class CreateTicketForm extends React.Component {
 			    } else if (fields[1].indexOf("textarea") === 0) {
 				    rendered.push(<FormField key={i} name={"template__"+fields[2]} required={req} validation="TEXT_AREA" decorator={"textarea"}/>)
 			    } else if (fields[1].indexOf("text") === 0) {
-				    rendered.push(<FormField key={i} name={"template__"+fields[2]} validation="TEXT_AREA" type="text"/>)
+				    rendered.push(<FormField key={i} name={"template__"+fields[2]} required={req} validation="TEXT_AREA" decorator={"input"}/>)
 			    } else {
 				    rendered.push(<span key={i}>Unknown field {fields[1]}</span>)
 			    }
