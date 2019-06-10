@@ -16,11 +16,12 @@ class MainHomePagePortal extends React.Component {
     render() {
         return (
             <Widget className={classNames('main-home-page-portal', this.props.className)}>
+		<div>
                 <div className="main-home-page-portal__title">
-			<img style={{"width":"50%"}} src="/images/logo.png" alt="Tripsit logo"/>
+			<img style={{"width":"20%"}} src="/images/logo.png" alt="Tripsit logo"/>
                     <Header description={i18n('SUPPORT_CENTER_DESCRIPTION')} />
                 </div>
-                <div className="main-home-page-portal__cards" style={{'display': 'flex'}}>
+                <div className="main-home-page-portal__cards row">
                     <div className="main-home-page-portal__card col-md-4">
                         <Card {...this.getTicketsCardProps()} />
                     </div>
@@ -31,6 +32,7 @@ class MainHomePagePortal extends React.Component {
                         <Card {...this.getAdminCardProps()} />
                     </div>
                 </div>
+		</div>
             </Widget>
         );
     }
