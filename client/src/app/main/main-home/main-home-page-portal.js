@@ -56,8 +56,8 @@ class MainHomePagePortal extends React.Component {
 
     getAdminCardProps() {
         return {
-            title: "Answer tickets",
-            description: "Staff only",
+            title: "Staff",
+            description: "Staff only login",
             icon: 'user',
             color: 'blue',
             buttonText: "Login",

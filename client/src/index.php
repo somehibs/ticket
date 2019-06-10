@@ -16,11 +16,12 @@
         <link rel="icon" type="image/x-icon" href="<?=$url ?>/images/icon.png">
     </head>
     <body>
-	<div id="spinner"></div>
-	<div id="loading1" style="text-align: center;margin-top:50px;">Please wait, loading 2.2MB site...</div>
-	<div id="loading2" style="text-align: center;margin-top:50px;">(subsequent loads for this version will be much faster)</div>
 	<script src="<?=$url ?>/js/spinner.js"></script>
-        <div id="app"></div>
+        <div id="app">
+		<div id="spinner"></div>
+		<div id="loading1" style="text-align: center;margin-top:50px;">Please wait, loading 2.2MB site...</div>
+		<div id="loading2" style="text-align: center;margin-top:50px;">(subsequent loads for this version will be much faster)</div>
+	</div>
 
         <script>
             root = "<?=$url ?>";
