@@ -18,7 +18,7 @@ class MainHomePagePortal extends React.Component {
             <Widget className={classNames('main-home-page-portal', this.props.className)}>
 		<div>
                 <div className="main-home-page-portal__title">
-			<img style={{"width":"20%"}} src="/images/logo.png" alt="Tripsit logo"/>
+			<img style={{"margin-bottom": "30px", "width":"325px"}} src="/images/logo.png" alt="Tripsit logo"/>
                 </div>
                 <div className="main-home-page-portal__cards row">
                     <div className="main-home-page-portal__card col-md-4">

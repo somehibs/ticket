@@ -252,7 +252,7 @@ export default {
     'STEP_7_DESCRIPTION': 'Installation is completed.',
 
     //VIEW DESCRIPTIONS
-    'CREATE_TICKET_DESCRIPTION': 'We will endeavour to answer within two weeks, idealy sooner. You may continue to comment on the ticket if you remember additional information about your ticket.',
+    'CREATE_TICKET_DESCRIPTION': 'We will endeavour to answer within two weeks, ideally sooner. You may continue to comment on the ticket if you remember additional information.',
     'TICKET_LIST_DESCRIPTION': 'Here you can find a list of all tickets you have sent to our support team.',
     'TICKETS_DESCRIPTION': 'Send ticket through our support center with your suggestions, acknowledgement and queries.',
     'ARTICLES_DESCRIPTION': 'Take a look to our articles about common issues, guides and documentation.',
