@@ -41,7 +41,8 @@ class AdminPanelMenu extends React.Component {
             selectedIndex: this.getGroupItemIndex(),
             onItemClick: this.onGroupItemClick.bind(this),
             tabbable: true,
-            type: 'horizontal-list'
+            type: 'horizontal-list',
+		className: 'font-weight-bold'
         };
     }
 
@@ -121,11 +122,11 @@ class AdminPanelMenu extends React.Component {
                         path: '/admin/panel/tickets/my-tickets',
                         level: 1
                     },
-                    {
-                        name: i18n('NEW_TICKETS'),
-                        path: '/admin/panel/tickets/new-tickets',
-                        level: 1
-                    },
+                //    {
+                //        name: i18n('NEW_TICKETS'),
+                //        path: '/admin/panel/tickets/new-tickets',
+                //        level: 1
+                //    },
                     {
                         name: i18n('ALL_TICKETS'),
                         path: '/admin/panel/tickets/all-tickets',

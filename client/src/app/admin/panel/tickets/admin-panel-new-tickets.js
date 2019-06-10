@@ -22,10 +22,12 @@ class AdminPanelNewTickets extends React.Component {
     }
 
     render() {
+	    //
+                //<Header title={i18n('NEW_TICKETS')} description={i18n('NEW_TICKETS_DESCRIPTION')} />
+                //{(this.props.error) ? <Message type="error">{i18n('ERROR_RETRIEVING_TICKETS')}</Message> : <TicketList {...this.getProps()}/>}
         return (
             <div className="admin-panel-my-tickets">
-                <Header title={i18n('NEW_TICKETS')} description={i18n('NEW_TICKETS_DESCRIPTION')} />
-                {(this.props.error) ? <Message type="error">{i18n('ERROR_RETRIEVING_TICKETS')}</Message> : <TicketList {...this.getProps()}/>}
+		Under maintenance. Please use All Tickets for now.
             </div>
         );
     }

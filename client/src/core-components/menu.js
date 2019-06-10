@@ -90,7 +90,9 @@ class Menu extends React.Component {
             'menu_horizontal-list-bright': (this.props.type === 'horizontal-list-bright')
         };
 
-        classes[this.props.className] = true;
+	if (this.props.className !== undefined) {
+       	 classes[this.props.className] = true;
+	}
 
         return classNames(classes);
     }

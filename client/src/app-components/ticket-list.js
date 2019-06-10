@@ -72,7 +72,7 @@ class TicketList extends React.Component {
             headers: this.getTableHeaders(),
             rows: this.getTableRows(),
             pageSize: 10,
-            comp: this.compareFunction,
+            comp: this.compareFunction.bind(this),
             page: this.props.page,
             pages: this.props.pages,
             onPageChange: this.props.onPageChange
@@ -203,6 +203,12 @@ class TicketList extends React.Component {
     }
 
     compareFunction(row1, row2) {
+	    let cf = this.compareFunctionImpl(row1, row2)
+	    console.log("row1: " + row1.date + " row2: " + row2.date + " cf: " + cf)
+	    return cf
+    }
+
+	    compareFunctionImpl(row1, row2) {
         if (row1.closed == row2.closed) {
             if (row1.unread == row2.unread) {
                 let s1 = row1.date;
