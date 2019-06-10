@@ -19,7 +19,6 @@ class MainHomePagePortal extends React.Component {
 		<div>
                 <div className="main-home-page-portal__title">
 			<img style={{"width":"20%"}} src="/images/logo.png" alt="Tripsit logo"/>
-                    <Header description={i18n('SUPPORT_CENTER_DESCRIPTION')} />
                 </div>
                 <div className="main-home-page-portal__cards row">
                     <div className="main-home-page-portal__card col-md-4">
