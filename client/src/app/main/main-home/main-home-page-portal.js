@@ -17,16 +17,17 @@ class MainHomePagePortal extends React.Component {
         return (
             <Widget className={classNames('main-home-page-portal', this.props.className)}>
                 <div className="main-home-page-portal__title">
-                    <Header title={this.props.title || i18n('SUPPORT_CENTER')} description={i18n('SUPPORT_CENTER_DESCRIPTION')} />
+			<img style={{"width":"50%"}} src="/images/logo.png" alt="Tripsit logo"/>
+                    <Header description={i18n('SUPPORT_CENTER_DESCRIPTION')} />
                 </div>
-                <div className="main-home-page-portal__cards">
-                    <div className="main-home-page-portal__card col-md-3">
+                <div className="main-home-page-portal__cards" style={{'display': 'flex'}}>
+                    <div className="main-home-page-portal__card col-md-4">
                         <Card {...this.getTicketsCardProps()} />
                     </div>
-                    <div className="main-home-page-portal__card col-md-3">
+                    <div className="main-home-page-portal__card col-md-4">
                         <Card {...((this.props.type === 'complete') ? this.getViewTicketCardProps() : this.getAccountCardProps())} />
                     </div>
-                    <div className="main-home-page-portal__card col-md-3">
+                    <div className="main-home-page-portal__card col-md-4">
                         <Card {...this.getAdminCardProps()} />
                     </div>
                 </div>
