@@ -41,7 +41,9 @@ module.exports = {
 			    module.exports.logoutAlert(false);
                     } else if (reject) {
 			    if (result.message == 'NO_PERMISSION' || result.message == 'INVALID_TICKET') {
-				    module.exports.logoutAlert(true);
+				    if (path != '/ticket/close') {
+					    module.exports.logoutAlert(true);
+				    }
 			    }
                         reject(result);
                     }

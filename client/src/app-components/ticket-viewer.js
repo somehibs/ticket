@@ -95,7 +95,7 @@ class TicketViewer extends React.Component {
                                   selectedIndex={_.findIndex(departments, {id: this.props.ticket.department.id})}
                                   onChange={this.onDepartmentDropdownChanged.bind(this)} />
                     </div>
-                    <div className="col-md-4">{ticket.author.name}</div>
+                    <div className="col-md-4">{authorName}</div>
                     <div className="col-md-4">{DateTransformer.transformToString(ticket.date)}</div>
                 </div>
                 <div className="ticket-viewer__info-row-header row">
@@ -131,6 +131,10 @@ class TicketViewer extends React.Component {
 
 	const priority = i18n(priorities[this.props.ticket.priority || 'low'])
 	const maybeUrl = "https://cloud.tripsit.me/s/"+ticket.cloud_id;
+	let authorName = ticket.author.name;
+	if (ticket.author.email !== undefined && ticket.author.email != '') {
+		authorName += ' <'+ticket.author.email+'>';
+	}
 
         return (
             <div className="ticket-viewer__headers row">
@@ -159,7 +163,7 @@ class TicketViewer extends React.Component {
                 <div className="col-md-4">
                     <div className="ticket-viewer__info-row-header">{i18n('AUTHOR')}</div>
                     <div className="ticket-viewer__info-row-values">
-			{ticket.author.name}
+			{authorName}
 		    </div>
 		</div>
                 <div className="col-md-4">
@@ -316,12 +320,17 @@ class TicketViewer extends React.Component {
     }
 
     onAssignClick() {
+        let shouldAssign = this.props.ticket.owner ? false : true;
         API.call({
-            path: (this.props.ticket.owner) ? '/staff/un-assign-ticket' : '/staff/assign-ticket',
+            path: (!shouldAssign) ? '/staff/un-assign-ticket' : '/staff/assign-ticket',
             data: {
                 ticketNumber: this.props.ticket.ticketNumber
             }
-        }).then(this.onTicketModification.bind(this));
+        }).then(this.onReassigned.bind(this, shouldAssign));
+    }
+
+    onReassigned(didAssign) {
+        this.onTicketModification();
     }
 
     onCloseClick() {
@@ -379,8 +388,6 @@ class TicketViewer extends React.Component {
     }
 
     onSubmit(formState) {
-	    console.log('form submitting');
-	    console.log(formState);
         this.setState({
             loading: true
         });
@@ -420,6 +427,10 @@ class TicketViewer extends React.Component {
     }
     onCloseTicketClick(event){
         event.preventDefault();
+        AreYouSure.openModal("Really close this ticket? Make sure you've left any final remarks with respond ticket first.", this.reallyCloseTicket.bind(this));
+	}
+
+	reallyCloseTicket() {
         API.call({
             path: '/ticket/close',
             data: {
