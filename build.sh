@@ -6,7 +6,7 @@ if [ ! -z $1 ]; then
 	BUILD_CLIENT=1
 fi
 COPY=1
-TARGET="prod"
+TARGET="dev"
 
 OUTPUT_DIR="build"
 rm -r $OUTPUT_DIR

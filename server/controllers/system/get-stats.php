@@ -81,6 +81,9 @@ class GetStatsController extends Controller {
                     $assignments = Ticketevent::count('type=? AND author_staff_id=? AND date LIKE ?',['ASSIGN',$staff->id, $date->format('Ymd') . '%']);
                     $closed = Ticketevent::count('type=? AND author_staff_id=? AND date LIKE ?',['CLOSE',$staff->id, $date->format('Ymd') . '%']);
 
+		    if ($assignments == 0 && $closed == 0) {
+			    continue;
+		    }
                     $statAssign = new Stat();
                     $statAssign->setProperties([
                         'date' => $date->format('Ymd'),
