@@ -9,6 +9,12 @@ import Widget from 'core-components/widget';
 
 class AdminPanel extends React.Component {
 
+	constructor(props) {
+		super(props);
+		this.state = {logged_out: false};
+		API.logoutAlert = this.logoutAlert.bind(this);
+	}
+
     render() {
         return (
             <MainLayout>
@@ -34,8 +40,14 @@ class AdminPanel extends React.Component {
         );
     }
 
+	logoutAlert(loggedOut) {
+		this.setState({
+			logged_out: loggedOut
+		})
+	}
+
 	maybeRenderLogoutWarning() {
-	    if (API.logoutAlert) {
+	    if (this.state.logged_out) {//API.logoutAlert) {
 		    return (<div className="logout-alert">Warning - you may have been logged out. Please copy any comments before logging out and logging in again.</div>);
 	    }
 	}

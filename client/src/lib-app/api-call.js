@@ -26,7 +26,9 @@ function processData (data, dataAsForm = false) {
 }
 
 module.exports = {
-	logoutAlert: false,
+	logoutAlert: function(alerted) {
+		console.log("Not overridden alert:" + alerted);
+	},
     call: function ({path, data, plain, dataAsForm}) {
         if (logging) { console.log('request ' + path, data); }
         return new Promise(function (resolve, reject) {
@@ -36,10 +38,10 @@ module.exports = {
 
                     if (plain || result.status === 'success') {
                         resolve(result);
-			    module.exports.logoutAlert = false;
+			    module.exports.logoutAlert(false);
                     } else if (reject) {
-			    if (result.message == 'NO_PERMISSION') {
-				    module.exports.logoutAlert = true;
+			    if (result.message == 'NO_PERMISSION' || result.message == 'INVALID_TICKET') {
+				    module.exports.logoutAlert(true);
 			    }
                         reject(result);
                     }
