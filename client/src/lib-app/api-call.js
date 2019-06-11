@@ -26,6 +26,7 @@ function processData (data, dataAsForm = false) {
 }
 
 module.exports = {
+	logoutAlert: false,
     call: function ({path, data, plain, dataAsForm}) {
         if (logging) { console.log('request ' + path, data); }
         return new Promise(function (resolve, reject) {
@@ -35,7 +36,11 @@ module.exports = {
 
                     if (plain || result.status === 'success') {
                         resolve(result);
+			    module.exports.logoutAlert = false;
                     } else if (reject) {
+			    if (result.message == 'NO_PERMISSION') {
+				    module.exports.logoutAlert = true;
+			    }
                         reject(result);
                     }
                 })

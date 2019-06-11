@@ -21,7 +21,7 @@ class AdminPanelViewTicket extends React.Component {
     };
 
     static defaultProps = {
-        avoidSeen: false,
+        avoidSeen: true,
 	staffPage: true,
         assignmentAllowed: true
     };

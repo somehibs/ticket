@@ -95,8 +95,6 @@ class CommentController extends Controller {
 
         $this->storeComment();
 
-
-		error_log("Permission denied ".$isOwner."|".$isAuthor."|".$this->internal);
         if($isAuthor && $this->ticket->owner && $this->internal === "false") {
           $this->sendMail([
             'email' => $this->ticket->owner->email,

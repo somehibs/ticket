@@ -204,7 +204,7 @@ class TicketList extends React.Component {
 
     compareFunction(row1, row2) {
 	    let cf = this.compareFunctionImpl(row1, row2)
-	    console.log("row1: " + row1.date + " row2: " + row2.date + " cf: " + cf)
+	    //console.log("row1: " + row1.date + " row2: " + row2.date + " cf: " + cf)
 	    return cf
     }
 

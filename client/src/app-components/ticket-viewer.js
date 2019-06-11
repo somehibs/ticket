@@ -130,7 +130,6 @@ class TicketViewer extends React.Component {
         };
 
 	const priority = i18n(priorities[this.props.ticket.priority || 'low'])
-	    console.log(ticket)
 	const maybeUrl = "https://cloud.tripsit.me/s/"+ticket.cloud_id;
 
         return (
@@ -279,6 +278,11 @@ class TicketViewer extends React.Component {
     }
 
     renderCommentError() {
+	    if (this.state.commentPermissionError) {
+		    return (
+            <Message className="ticket-viewer__message" type="error">You do not have permission to comment on this ticket, or you have been logged out. Copy your message text, log out, and log in again.</Message>
+		    );
+	    }
         return (
             <Message className="ticket-viewer__message" type="error">{i18n('TICKET_COMMENT_ERROR')}</Message>
         );
@@ -401,10 +405,11 @@ class TicketViewer extends React.Component {
         this.onTicketModification();
     }
 
-    onCommentFail() {
+    onCommentFail(r) {
         this.setState({
             loading: false,
-            commentError: true
+            commentError: true,
+            commentPermissionError: r.message == 'INVALID_TICKET'
         });
     }
 

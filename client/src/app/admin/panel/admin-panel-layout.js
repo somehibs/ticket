@@ -3,6 +3,7 @@ import React from 'react';
 import MainLayout from 'app/main/main-layout';
 import AdminPanelStaffWidget from 'app/admin/panel/admin-panel-staff-widget';
 import AdminPanelMenu from 'app/admin/panel/admin-panel-menu';
+import API from 'lib-app/api-call.js';
 
 import Widget from 'core-components/widget';
 
@@ -12,6 +13,7 @@ class AdminPanel extends React.Component {
         return (
             <MainLayout>
                 <div className="admin-panel-layout">
+			{this.maybeRenderLogoutWarning()}
                     <div className="row admin-panel-layout__header">
                         <div className="col-md-3">
                             <AdminPanelStaffWidget />
@@ -31,6 +33,12 @@ class AdminPanel extends React.Component {
             </MainLayout>
         );
     }
+
+	maybeRenderLogoutWarning() {
+	    if (API.logoutAlert) {
+		    return (<div className="logout-alert">Warning - you may have been logged out. Please copy any comments before logging out and logging in again.</div>);
+	    }
+	}
 }
 
 export default AdminPanel;
