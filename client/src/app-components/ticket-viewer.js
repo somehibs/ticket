@@ -399,6 +399,16 @@ class TicketViewer extends React.Component {
     }
 
     onSubmit(formState) {
+	    console.log(formState)
+	    if (formState.internal == false) {
+	        AreYouSure.openModal("When you press yes, your "+formState.content.length+" letter comment will be emailed to " + this.props.ticket.author.email+". Are you sure you wish to continue?", this.reallyOnSubmit.bind(this, formState));
+	    } else {
+		    this.reallyOnSubmit(formState);
+	    }
+    }
+
+
+	    reallyOnSubmit(formState) {
         this.setState({
             loading: true
         });
