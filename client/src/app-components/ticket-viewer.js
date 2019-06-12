@@ -293,9 +293,9 @@ class TicketViewer extends React.Component {
     }
 
     renderCommentError() {
-	    if (this.state.commentPermissionError) {
+	    if (this.state.commentErrorText) {
 		    return (
-            <Message className="ticket-viewer__message" type="error">You do not have permission to comment on this ticket, or you have been logged out. Copy your message text, log out, and log in again.</Message>
+            <Message className="ticket-viewer__message" type="error">{this.state.commentErrorText}</Message>
 		    );
 	    }
         return (
@@ -434,10 +434,14 @@ class TicketViewer extends React.Component {
     }
 
     onCommentFail(r) {
+	    let commentErrorText = "";
+	    if (r.message == 'INVALID_TICKET') {
+		    commentErrorText = "You do not have permissions for this ticket, or you have been logged out. Copy your message text, press F5 and try again.";
+	    }
         this.setState({
             loading: false,
             commentError: true,
-            commentPermissionError: r.message == 'INVALID_TICKET'
+            commentErrorText: commentErrorText
         });
     }
 
@@ -457,7 +461,14 @@ class TicketViewer extends React.Component {
             data: {
                 ticketNumber: this.props.ticket.ticketNumber
             }
-        }).then(this.onTicketModification.bind(this));
+        }).then(this.onTicketModification.bind(this), this.onCloseFailure.bind(this));
+    }
+
+    onCloseFailure() {
+	    this.setState({
+		    commentError: true,
+		    commentErrorText: "Cannot close ticket. Is it assigned to you? Have you messaged the user yet?"
+	    })
     }
 }
 
