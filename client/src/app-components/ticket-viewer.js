@@ -55,7 +55,7 @@ class TicketViewer extends React.Component {
                         <Icon name={(ticket.language === 'en') ? 'us' : ticket.language}/>
                     </span>
                 </div>
-                {this.renderHeaders(this.props.editable)}
+                {this.renderHeaders(this.props.showInternal)}
                 <div className="ticket-viewer__content">
                     <TicketEvent type="COMMENT" author={ticket.author} content={ticket.content} date={ticket.date} file={ticket.file}/>
                 </div>
@@ -67,9 +67,21 @@ class TicketViewer extends React.Component {
         );
     }
 
+    renderDepartmentDropdown() {
+        const departments = SessionStore.getDepartments();
+	    try {
+        return (           <DropDown className="ticket-viewer__editable-dropdown"
+                                  items={departments.map((department) => {return {content: department.name}})}
+                                  selectedIndex={_.findIndex(departments, {id: this.props.ticket.department.id})}
+                                  onChange={this.onDepartmentDropdownChanged.bind(this)} />);
+	    } catch (e) {
+		    console.log("couldn't render depdrop");
+		    console.log(e);
+	    }
+    }
+
     renderEditableHeaders() {
         const ticket = this.props.ticket;
-        const departments = SessionStore.getDepartments();
         const priorities = {
             'low': 0,
             'medium': 1,
@@ -85,17 +97,14 @@ class TicketViewer extends React.Component {
             <div className="ticket-viewer__headers">
                 <div className="ticket-viewer__info-row-header row">
                     <div className="col-md-4">{i18n('DEPARTMENT')}</div>
-                    <div className=" col-md-4">{i18n('AUTHOR')}</div>
+                    <div className="col-md-4">{i18n('AUTHOR')}</div>
                     <div className="col-md-4">{i18n('DATE')}</div>
                 </div>
                 <div className="ticket-viewer__info-row-values row">
                     <div className="col-md-4">
-                        <DropDown className="ticket-viewer__editable-dropdown"
-                                  items={departments.map((department) => {return {content: department.name}})}
-                                  selectedIndex={_.findIndex(departments, {id: this.props.ticket.department.id})}
-                                  onChange={this.onDepartmentDropdownChanged.bind(this)} />
+			{this.props.showInternal ? renderDepartmentDropdown() : ""}
                     </div>
-                    <div className="col-md-4">{authorName}</div>
+                    <div className="col-md-4">{ticket.author.name}</div>
                     <div className="col-md-4">{DateTransformer.transformToString(ticket.date)}</div>
                 </div>
                 <div className="ticket-viewer__info-row-header row">
@@ -108,7 +117,7 @@ class TicketViewer extends React.Component {
                         <DropDown className="ticket-viewer__editable-dropdown" items={priorityList} selectedIndex={priorities[ticket.priority]} onChange={this.onPriorityDropdownChanged.bind(this)} />
                     </div>
                     <div className="col-md-4">
-                        {this.renderEditableOwnerNode()}
+                        {this.renderOwnerNode()}
                     </div>
                     <div className="col-md-4">
                         {ticket.closed ?
@@ -130,17 +139,19 @@ class TicketViewer extends React.Component {
         };
 
 	const priority = i18n(priorities[this.props.ticket.priority || 'low'])
-	const maybeUrl = "https://cloud.tripsit.me/s/"+ticket.cloud_id;
 	let authorName = ticket.author.name;
-	if (ticket.author.email !== undefined && ticket.author.email != '') {
+	if (this.isStaff() && ticket.author.email !== undefined && ticket.author.email != '') {
 		authorName += ' <'+ticket.author.email+'>';
 	}
+	let showDepartmentSwitcher = false; // set this to isStaff if you want departments to change. turns out i don't
 
         return (
             <div className="ticket-viewer__headers row">
                 <div className="col-md-4">
                     <div className="ticket-viewer__info-row-header">{i18n('DEPARTMENT')}</div>
-                    <div className="ticket-viewer__info-row-values">{ticket.department.name}</div>
+                    <div className="ticket-viewer__info-row-values">
+			{showDepartmentSwitcher ? this.renderDepartmentDropdown() : ticket.department.name}
+		</div>
                 </div>
                 <div className="col-md-4">
                     <div className="ticket-viewer__info-row-header">{i18n('PRIORITY')}</div>
@@ -151,7 +162,7 @@ class TicketViewer extends React.Component {
                 <div className="col-md-4">
                     <div className="ticket-viewer__info-row-header">{i18n('OWNER')}</div>
                     <div className="ticket-viewer__info-row-values">
-			{this.renderOwnerNode()}
+			{this.isStaff() ? this.renderEditableOwnerNode() : this.renderOwnerNode()}
 		    </div>
                 </div>
                 <div className="col-md-4">
@@ -178,7 +189,7 @@ class TicketViewer extends React.Component {
     }
 
     renderShareHeader() {
-	    if (this.props.ticket.cloud_id !== "NONE" && this.props.ticket.cloud_id !== "null" && this.props.ticket.cloud_id !== null) {
+	    if (this.isStaff() && this.props.ticket.cloud_id !== "NONE" && this.props.ticket.cloud_id !== "null" && this.props.ticket.cloud_id !== null) {
 		    const url = "https://cloud.tripsit.me/s/"+this.props.ticket.cloud_id;
 		    return (
                 	<div className="col-md-4">
@@ -260,7 +271,7 @@ class TicketViewer extends React.Component {
     renderCustomResponses() {
         let customResponsesNode = null;
 
-        if (this.props.customResponses && this.props.editable) {
+        if (this.isStaff() && this.props.customResponses && this.props.editable) {
             let customResponses = this.props.customResponses.map((customResponse) => {
                 return {
                     content: customResponse.name

@@ -33,7 +33,7 @@ class DashboardTicketPage extends React.Component {
         let ticketView = i18n('NO_PERMISSION');
 
         if(!_.isEmpty(this.getTicketData())) {
-            ticketView = <TicketViewer showInternalComment={false} ticket={this.getTicketData()} onChange={this.retrieveUserData.bind(this)}/>;
+            ticketView = <TicketViewer showInternal={false} ticket={this.getTicketData()} onChange={this.retrieveUserData.bind(this)}/>;
         }
 
         return (
