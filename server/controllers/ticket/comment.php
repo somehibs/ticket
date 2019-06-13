@@ -88,6 +88,20 @@ class CommentController extends Controller {
 	        $isOwner = $this->ticket->isOwner(Controller::getLoggedUser());
 	}
 
+	if (!$isOwner) {
+		// Need to set the owner to myself. Don't bother emailing the user.
+		$loggedUser = Controller::getLoggedUser();
+		$loggedUser->sharedTicketList->add($this->ticket);
+		$this->ticket->owner = $loggedUser;
+		$this->ticket->unread = !$this->ticket->isAuthor($loggedUser);
+		$event = Ticketevent::getEvent(Ticketevent::ASSIGN);
+		$event->setProperties(array('authorStaff' => $loggedUser, 'date' => Date::getCurrentDate()));
+		$this->ticket->addEvent($event);
+		$this->ticket->store();
+		$loggedUser->store();
+		$isOwner = 1;
+	}
+
         if(!$isOwner && !$isAuthor && ($this->internal === "false")) {
 		error_log("Permission denied ".$isOwner."|".$isAuthor."|".$this->internal);
 		throw new Exception(ERRORS::NO_PERMISSION);
