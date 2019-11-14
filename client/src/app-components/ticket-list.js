@@ -123,6 +123,11 @@ class TicketList extends React.Component {
                     className: 'ticket-list__number col-md-1'
                 },
                 {
+                    key: 'author',
+                    value: i18n('AUTHOR'),
+                    className: 'ticket-list__author col-md-2'
+                },
+                {
                     key: 'title',
                     value: i18n('TITLE'),
                     className: 'ticket-list__title col-md-4'
@@ -136,11 +141,6 @@ class TicketList extends React.Component {
                     key: 'department',
                     value: i18n('DEPARTMENT'),
                     className: 'ticket-list__department col-md-2'
-                },
-                {
-                    key: 'author',
-                    value: i18n('AUTHOR'),
-                    className: 'ticket-list__author col-md-2'
                 },
                 {
                     key: 'date',
@@ -175,7 +175,7 @@ class TicketList extends React.Component {
                     {titleText}
                 </Button>
             ),
-            priority: this.getTicketPriority(ticket.priority),
+            priority: this.getTicketPriority(ticket.priority, ticket.closed),
             department: ticket.department.name,
             author: ticket.author.name,
             date: DateTransformer.transformToString(ticket.date, false),
@@ -184,7 +184,12 @@ class TicketList extends React.Component {
         };
     }
 
-    getTicketPriority(priority) {
+    getTicketPriority(priority, closed) {
+	    if (closed == 1) {
+		    return (
+			    <span className="ticket-list__priority-closed">Closed</span>
+		    );
+	    }
         if(priority == 'high'){
             return (
                 <span className="ticket-list__priority-high">{i18n('HIGH')}</span>

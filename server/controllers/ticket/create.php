@@ -172,6 +172,7 @@ class CreateController extends Controller {
             'to' => $email,
             'name' => $this->name,
             'ticketNumber' => $this->ticketNumber,
+	    'content' => $this->content,
             'title' => $this->title
         ]);
 

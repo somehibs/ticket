@@ -1,14 +1,15 @@
 # improve buildscript, take arg for client or server
 # server only copies $OUTPUT_DIR/api and doesn't overwrite config.php
 
+TARGET="prod"
 BUILD_SERVER=1
 if [ ! -z $1 ]; then
 	BUILD_CLIENT=1
 fi
 COPY=1
-TARGET="prod"
-
 OUTPUT_DIR="build"
+
+echo "Build starting. SERVER: $BUILD_SERVER CLIENT: $BUILD_CLIENT TARGET: $TARGET OUTDIR: $OUTPUT_DIR"
 rm -r $OUTPUT_DIR
 mkdir $OUTPUT_DIR
 ## enter any dir to make any cd work

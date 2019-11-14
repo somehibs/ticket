@@ -18,14 +18,16 @@ class Department extends DataStore {
             'name',
             'sharedTicketList',
 	    'owners',
-	    'template'
+	    'template',
+	    'forward_email'
         ];
     }
     
     public function getDefaultProps() {
         return [
 		'owners' => 0,
-		'template' => ''
+		'template' => '',
+		'forward_email' => ''
         ];
     }
 
@@ -38,7 +40,8 @@ class Department extends DataStore {
                 'id' => $department->id,
                 'name' => $department->name,
                 'owners' => $department->owners,
-		'template' => $department->template
+		'template' => $department->template,
+		'forward_email' => $department->forward_email
             ];
         }
         
@@ -49,7 +52,8 @@ class Department extends DataStore {
             'id' => $this->id,
             'name' => $this->name,
             'owners' => $this->owners,
-	    'template' => $this->template
+	    'template' => $this->template,
+            'forward_email' => $this->forward_email
         ];
     }
 }

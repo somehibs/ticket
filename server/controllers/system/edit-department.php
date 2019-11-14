@@ -54,6 +54,7 @@ class EditDepartmentController extends Controller {
 
         $departmentInstance->name = $newname;
         $departmentInstance->template = $newtemplate;
+        $departmentInstance->forward_email = Controller::request('forward_email');
 
         $departmentInstance->store();
 

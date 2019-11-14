@@ -34,11 +34,16 @@
 
     &__priority-low,
     &__priority-medium,
+    &__priority-closed,
     &__priority-high {
         display: inline-block;
         border-radius: 10px;
         width: 70px;
         color: white;
+    }
+
+    &__priority-closed {
+        background-color: #aaa;
     }
 
     &__priority-low {

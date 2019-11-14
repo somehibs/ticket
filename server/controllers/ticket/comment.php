@@ -88,7 +88,7 @@ class CommentController extends Controller {
 	        $isOwner = $this->ticket->isOwner(Controller::getLoggedUser());
 	}
 
-	if (!$isOwner) {
+	if ($isAuthor === 0 && !$isOwner) {
 		// Need to set the owner to myself. Don't bother emailing the user.
 		$loggedUser = Controller::getLoggedUser();
 		$loggedUser->sharedTicketList->add($this->ticket);
@@ -173,13 +173,16 @@ class CommentController extends Controller {
         if(!Controller::isUserSystemEnabled() && !$isStaff) {
           $url .= '/check-ticket/' . $this->ticket->ticketNumber;
           $url .= '/' . $email;
-        }
+	} else if ($isStaff) {
+		$url .= '/admin/panel/tickets/view-ticket/' . $this->ticket->ticketNumber;
+	}
 
         $mailSender->setTemplate(MailTemplate::TICKET_RESPONDED, [
             'to' => $email,
             'name' => $name,
             'title' => $this->ticket->title,
             'ticketNumber' => $this->ticket->ticketNumber,
+	    'content' => $this->content,
             'url' => $url
         ]);
 

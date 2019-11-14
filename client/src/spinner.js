@@ -218,11 +218,7 @@ function loadingSpinner(element) {
 		spinner = new Spinner(opts).spin(target);
 	console.log("loaded spinner: " + spinner + " into target " + target);
 }
-setTimeout(function(){
-	if (!loaded) {
-		loadingSpinner("spinner")
-	}
-}, 500)
+loadingSpinner("spinner")
 window.onload = function() {
 	loaded = true
 	spinner.stop()
