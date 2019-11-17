@@ -46,7 +46,6 @@ class AdminPanelDepartments extends React.Component {
                     <div className="col-md-8">
                         <Form {...this.getFormProps()}>
                             <FormField label={i18n('NAME')} name="name" validation="NAME" required fieldProps={{size: 'large'}}/>
-                            <FormField label={i18n('FORWARD_EMAIL')} name="forward_email" validation="EMAIL" fieldProps={{size: 'large'}}/>
 				<FormField label={i18n('TEMPLATE')} name="template" required validation="TEXT_AREA" decorator={'textarea'} fieldProps={{className: 'admin-panel-departments__text-area'}} />
                             <SubmitButton size="medium" className="admin-panel-departments__update-name-button" type="secondary">
                                 {i18n((this.state.selectedIndex !== -1) ? 'UPDATE_DEPARTMENT' : 'ADD_DEPARTMENT')}

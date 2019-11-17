@@ -399,8 +399,11 @@ class TicketViewer extends React.Component {
     }
 
     onSubmit(formState) {
+	    console.log("OPN")
 	    console.log(formState)
-	    if (formState.internal == false) {
+	    console.log(this)
+	    console.log("BRK")
+	    if (formState.internal == false && this.props.userId !== undefined) {
 	        AreYouSure.openModal("When you press yes, your "+formState.content.length+" letter comment will be emailed to " + this.props.ticket.author.email+". Are you sure you wish to continue?", this.reallyOnSubmit.bind(this, formState));
 	    } else {
 		    this.reallyOnSubmit(formState);
@@ -435,8 +438,11 @@ class TicketViewer extends React.Component {
 
     onCommentFail(r) {
 	    let commentErrorText = "";
+	    if (this.props.ticket.owner === null) {
+		    commentErrorText = "Please assign this ticket to yourself first. (Assignment does not send emails, but the user can see them)";
+	    }
 	    if (r.message == 'INVALID_TICKET') {
-		    commentErrorText = "You do not have permissions for this ticket, or you have been logged out. Copy your message text, press F5 and try again.";
+		    commentErrorText = "You have been logged out. Copy your comment, press F5 and try again.";
 	    }
         this.setState({
             loading: false,
